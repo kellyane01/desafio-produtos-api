@@ -38,7 +38,7 @@ Edite o `.env` se necessário. Configuração padrão para containers:
 DB_CONNECTION=pgsql
 DB_HOST=postgres
 DB_PORT=5432
-DB_DATABASE=laravel
+DB_DATABASE=projeto_produtos
 DB_USERNAME=laravel
 DB_PASSWORD=secret
 
