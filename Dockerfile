@@ -14,5 +14,8 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Definir diretório de trabalho
 WORKDIR /var/www/html
 
-# Instalar dependências Laravel quando o container subir
-CMD composer install && php artisan migrate && php artisan serve --host=0.0.0.0 --port=8000
+# Copiar entrypoint
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["entrypoint.sh"]

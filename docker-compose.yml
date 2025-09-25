@@ -41,7 +41,7 @@ services:
     networks:
       - laravel
 
-  # pgAdmin (opcional para gerenciar o banco)
+  # pgAdmin (gerenciar o banco)
   pgadmin:
     image: dpage/pgadmin4
     container_name: laravel_pgadmin

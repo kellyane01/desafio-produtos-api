@@ -22,8 +22,8 @@ logs assíncronos.
 ### 1. Clonar repositório
 
 ``` sh
-git clone https://github.com/seu-usuario/desafio-backend.git
-cd desafio-backend
+git clone https://github.com/kellyane01/desafio-produtos-api
+cd desafio-produtos-api
 ```
 
 ### 2. Copiar variáveis de ambiente
