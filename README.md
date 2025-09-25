@@ -64,6 +64,20 @@ Credenciais padrão da API:
 -   **Email:** `brena@gmail.com`
 -   **Senha:** `12345678`
 
+### 🔐 Autenticação via Token
+
+-   Faça `POST http://localhost:8000/api/login` com `Accept: application/json` e corpo JSON:
+
+    ```json
+    {
+      "email": "brena@gmail.com",
+      "password": "12345678"
+    }
+    ```
+
+-   A resposta retorna `access_token`; envie-o como `Authorization: Bearer {access_token}` para chamar rotas protegidas (ex.: `GET /api/user`).
+-   Para encerrar a sessão do token atual, chame `POST http://localhost:8000/api/logout` com o header `Authorization` informado acima.
+
 ------------------------------------------------------------------------
 
 ## 🧪 Testes
