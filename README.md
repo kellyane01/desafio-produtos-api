@@ -49,7 +49,7 @@ REDIS_HOST=redis
 ### 3. Subir containers
 
 ``` sh
-docker-compose up -d
+docker-compose up --build -d
 ```
 
 ### 4. Acessar o projeto
@@ -58,6 +58,11 @@ docker-compose up -d
 -   pgAdmin: <http://localhost:5050>
     -   **Email:** `admin@admin.com`\
     -   **Senha:** `secret`
+
+Credenciais padrão da API:
+
+-   **Email:** `brena@gmail.com`
+-   **Senha:** `12345678`
 
 ------------------------------------------------------------------------
 
@@ -73,7 +78,7 @@ docker exec -it laravel_app php artisan test
 
 ## 📋 Funcionalidades Implementadas
 
--   [] Autenticação (Laravel Breeze / Sanctum)\
+-   [x] Autenticação (Laravel Breeze / Sanctum)\
 -   [] CRUD de Produtos\
 -   [] Paginação e filtros avançados\
 -   [] Logs assíncronos com Jobs + Redis\

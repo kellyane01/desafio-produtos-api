@@ -25,9 +25,12 @@ until php -r "exit((int)!@fsockopen('${DB_HOST}', ${DB_PORT}));"; do
 done
 echo "✅ Postgres disponível."
 
-# Rodar migrations
+# Rodar migrations e seeders
 echo "🗄️ Rodando migrations..."
 php artisan migrate --force
+
+echo "🌱 Executando seeders..."
+php artisan db:seed --force
 
 # Iniciar servidor
 echo "🚀 Iniciando servidor Laravel..."
