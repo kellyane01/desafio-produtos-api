@@ -78,6 +78,23 @@ Credenciais padrão da API:
 -   A resposta retorna `access_token`; envie-o como `Authorization: Bearer {access_token}` para chamar rotas protegidas (ex.: `GET /api/user`).
 -   Para encerrar a sessão do token atual, chame `POST http://localhost:8000/api/logout` com o header `Authorization` informado acima.
 
+### 📚 Endpoints de Produtos
+
+Todas as rotas abaixo exigem o header `Authorization: Bearer {access_token}`:
+
+-   `GET /api/produtos` — Lista paginada ordenada por nome (`?search=` filtra por nome/descrição/categoria)
+-   `POST /api/produtos` — Cadastra um produto (`nome`, `descricao`, `preco`, `categoria`, `estoque`)
+-   `GET /api/produtos/{produto}` — Detalhes de um produto específico
+-   `PUT /api/produtos/{produto}` — Atualiza qualquer campo informado
+-   `DELETE /api/produtos/{produto}` — Remove o produto
+
+### 🧱 Camadas de Serviço e Repositório
+
+-   `app/Repositories/ProdutoRepositoryInterface.php` define o contrato para acesso a dados de produtos; `ProdutoRepository.php` implementa o CRUD e filtros usando Eloquent.
+-   `app/Services/ProdutoService.php` concentra regras de negócio e orquestra o repositório, mantendo o controller fino.
+-   O `ProdutoController` injeta o serviço, o que facilita testes unitários (mockando o contrato), reduz acoplamento com Eloquent e permite evoluir regras sem alterar a API.
+-   Esta abordagem favorece coesão, reutilização e possibilidade de introduzir novas fontes de dados (ex.: cache, integrações externas) apenas trocando a implementação do repositório.
+
 ------------------------------------------------------------------------
 
 ## 🧪 Testes
@@ -93,11 +110,11 @@ docker exec -it laravel_app php artisan test
 ## 📋 Funcionalidades Implementadas
 
 -   [x] Autenticação (Laravel Breeze / Sanctum)\
--   [] CRUD de Produtos\
+-   [x] CRUD de Produtos\
 -   [] Paginação e filtros avançados\
 -   [] Logs assíncronos com Jobs + Redis\
 -   [] Migrations, Seeders e Eloquent ORM\
--   [] Validação com Form Requests\
+-   [x] Validação com Form Requests\
 -   [] Resources para padronização de resposta\
 -   [] Tratamento de erros consistente
 

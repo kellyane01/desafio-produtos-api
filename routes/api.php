@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ProdutoController;
 use App\Http\Controllers\Api\TokenAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,4 +24,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::post('/logout', [TokenAuthController::class, 'logout']);
+
+    Route::apiResource('produtos', ProdutoController::class);
 });
