@@ -3,6 +3,35 @@ set -e
 
 role=${1:-serve}
 
+load_env_default() {
+  local var_name=$1
+
+  # Keep values already provided via environment variables (docker-compose, kubernetes, etc.)
+  if [ "${!var_name+x}" = "x" ]; then
+    return
+  fi
+
+  if [ ! -f ".env" ]; then
+    return
+  fi
+
+  local line value
+  line=$(grep -E "^${var_name}=" .env | tail -n 1 || true)
+  if [ -z "${line}" ]; then
+    return
+  fi
+
+  value=${line#*=}
+  value=${value%$'\r'}
+  value=$(printf '%s' "${value}" | sed -e 's/[[:space:]]*#.*$//' -e 's/^"//;s/"$//' -e "s/^'//;s/'$//")
+
+  export "${var_name}=${value}"
+}
+
+load_env_default PRODUTO_SEED_ON_BOOT
+load_env_default PRODUTO_REINDEX_ON_BOOT
+load_env_default SCRIBE_GENERATE_ON_BOOT
+
 # Instalar dependências só se não existirem
 if [ ! -d "vendor" ]; then
   echo "📦 Instalando dependências com Composer..."
