@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
-    Route::post('/logout', [TokenAuthController::class, 'logout']);
-
     Route::apiResource('produtos', ProdutoController::class);
+
+    Route::post('/logout', [TokenAuthController::class, 'logout']);
 });
