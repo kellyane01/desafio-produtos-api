@@ -17,16 +17,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/login', [TokenAuthController::class, 'login']);
+Route::prefix('v1')->name('v1.')->group(function () {
+    Route::post('auth/login', [TokenAuthController::class, 'login'])->name('auth.login');
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('auth/me', [TokenAuthController::class, 'me'])->name('auth.me');
+
+        Route::post('auth/logout', [TokenAuthController::class, 'logout'])->name('auth.logout');
+
+        Route::apiResource('produtos', ProdutoController::class);
+
+        Route::apiResource('logs', LogController::class)->only(['index']);
     });
-
-    Route::apiResource('produtos', ProdutoController::class);
-
-    Route::get('logs', [LogController::class, 'index']);
-
-    Route::post('/logout', [TokenAuthController::class, 'logout']);
 });

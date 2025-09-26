@@ -1,0 +1,200 @@
+name: Autenticação
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/auth/login
+    metadata:
+      groupName: Autenticação
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Realiza o login e gera um token de acesso para futuras requisições autenticadas.'
+      description: ''
+      authenticated: false
+      deprecated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      email:
+        name: email
+        description: 'E-mail cadastrado do usuário.'
+        required: true
+        example: usuario@example.com
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+      password:
+        name: password
+        description: 'Senha do usuário.'
+        required: true
+        example: senha-segura
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      email: usuario@example.com
+      password: senha-segura
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"token_type":"Bearer","access_token":"1|pC6m2GdEXEMPLO"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 422
+        content: '{"message":"The given data was invalid.","errors":{"email":["Estas credenciais não conferem."]}}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/v1/auth/me
+    metadata:
+      groupName: Autenticação
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Retorna os dados do usuário autenticado.'
+      description: ''
+      authenticated: true
+      deprecated: false
+      custom: []
+    headers:
+      Authorization: 'Bearer Bearer {ACCESS_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"id":1,"name":"Administrador","email":"admin@example.com","created_at":"2024-01-10T14:32:11Z","updated_at":"2024-05-18T09:21:44Z"}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields:
+      id:
+        name: id
+        description: 'Identificador do usuário autenticado.'
+        required: false
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      name:
+        name: name
+        description: 'Nome do usuário.'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      email:
+        name: email
+        description: 'Endereço de e-mail.'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      created_at:
+        name: created_at
+        description: 'Data de criação do cadastro em formato ISO 8601.'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      updated_at:
+        name: updated_at
+        description: 'Data da última atualização em formato ISO 8601.'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/auth/logout
+    metadata:
+      groupName: Autenticação
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Revoga o token de acesso atualmente em uso.'
+      description: ''
+      authenticated: true
+      deprecated: false
+      custom: []
+    headers:
+      Authorization: 'Bearer Bearer {ACCESS_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 204
+        content: '{}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+    custom: []

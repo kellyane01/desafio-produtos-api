@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Jobs\LogModelActivity;
+use App\Jobs\SyncProdutoSearchDocument;
 use App\Models\Produto;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,6 +12,7 @@ class ProdutoObserver
     public function created(Produto $produto): void
     {
         $this->dispatchLog($produto, 'create', $produto->getAttributes());
+        SyncProdutoSearchDocument::dispatchUpsert($produto);
     }
 
     public function updated(Produto $produto): void
@@ -20,11 +22,13 @@ class ProdutoObserver
         }
 
         $this->dispatchLog($produto, 'update', $produto->getAttributes());
+        SyncProdutoSearchDocument::dispatchUpsert($produto);
     }
 
     public function deleted(Produto $produto): void
     {
         $this->dispatchLog($produto, 'delete', $produto->getOriginal());
+        SyncProdutoSearchDocument::dispatchDelete($produto);
     }
 
     /**

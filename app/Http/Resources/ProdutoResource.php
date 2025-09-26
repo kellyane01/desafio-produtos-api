@@ -14,7 +14,7 @@ class ProdutoResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $data = [
             'id' => $this->resource->id,
             'nome' => $this->resource->nome,
             'descricao' => $this->resource->descricao,
@@ -24,5 +24,11 @@ class ProdutoResource extends JsonResource
             'created_at' => $this->resource->created_at?->toIso8601String(),
             'updated_at' => $this->resource->updated_at?->toIso8601String(),
         ];
+
+        if (isset($this->resource->search_highlight) && is_array($this->resource->search_highlight)) {
+            $data['search_highlight'] = $this->resource->search_highlight;
+        }
+
+        return $data;
     }
 }

@@ -14,6 +14,7 @@ services:
     depends_on:
       - postgres
       - redis
+      - elasticsearch
     networks:
       - laravel
     command: serve
@@ -28,6 +29,7 @@ services:
     depends_on:
       - redis
       - postgres
+      - elasticsearch
     networks:
       - laravel
     command: queue
@@ -56,6 +58,25 @@ services:
     networks:
       - laravel
 
+  # Elasticsearch (busca full-text)
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
+    container_name: laravel_elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - laravel
+
   # pgAdmin (gerenciar o banco)
   pgadmin:
     image: dpage/pgadmin4
@@ -75,3 +96,4 @@ networks:
 
 volumes:
   postgres_data:
+  elasticsearch_data:
