@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Produto\ListProdutoRequest;
 use App\Http\Requests\Produto\StoreProdutoRequest;
 use App\Http\Requests\Produto\UpdateProdutoRequest;
 use App\Http\Resources\ProdutoResource;
 use App\Models\Produto;
 use App\Services\ProdutoService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ProdutoController extends Controller
@@ -21,17 +21,6 @@ class ProdutoController extends Controller
     /**
      * @group Produtos
      * Lista produtos com suporte a filtros, ordenação e paginação.
-     *
-     * @queryParam search string Busca textual por nome, descrição ou categoria. Example: smartphone
-     * @queryParam categoria string Filtra por uma categoria específica. Example: Eletrônicos
-     * @queryParam categorias[] string Filtra por múltiplas categorias (aceita array ou valores separados por vírgula). Example: ["Eletrônicos","Informática"]
-     * @queryParam min_preco number Limita a busca pelo preço mínimo. Example: 100.9
-     * @queryParam max_preco number Limita a busca pelo preço máximo. Example: 999.9
-     * @queryParam disponivel boolean Retorna apenas produtos com estoque (>0) quando true ou esgotados quando false. Example: true
-     * @queryParam sort string Campo utilizado na ordenação (nome, preco, categoria, estoque, created_at). Example: preco
-     * @queryParam order string Direção da ordenação (asc ou desc). Example: desc
-     * @queryParam page integer Número da página a ser retornada. Example: 2
-     * @queryParam per_page integer Quantidade de registros por página (1-100). Example: 25
      *
      * @responseField data[].id integer Identificador do produto.
      * @responseField data[].nome string Nome do produto.
@@ -72,25 +61,17 @@ class ProdutoController extends Controller
      *   }
      * }
      */
-    public function index(Request $request): JsonResponse
+    public function index(ListProdutoRequest $request): JsonResponse
     {
-        $filters = $request->only([
-            'search',
-            'categoria',
-            'categorias',
-            'min_preco',
-            'max_preco',
-            'disponivel',
-            'sort',
-            'order',
-            'page',
-        ]);
+        $validated = $request->validated();
 
-        $filters['page'] = isset($filters['page']) && (int) $filters['page'] > 0
-            ? (int) $filters['page']
-            : (int) $request->query('page', 1);
+        $filters = collect($validated)
+            ->except(['per_page'])
+            ->all();
 
-        $perPage = (int) $request->query('per_page', 15);
+        $filters['page'] = $validated['page'] ?? (int) $request->query('page', 1);
+
+        $perPage = (int) ($validated['per_page'] ?? $request->query('per_page', 15));
         if ($perPage <= 0) {
             $perPage = 15;
         }
@@ -123,12 +104,6 @@ class ProdutoController extends Controller
     /**
      * @group Produtos
      * Cadastra um novo produto.
-     *
-     * @bodyParam nome string required Nome do produto. Example: Caixa de Som Bluetooth
-     * @bodyParam descricao string required Descrição do produto. Example: Caixa portátil com bateria de 12h e proteção IP67
-     * @bodyParam preco number required Preço unitário. Example: 299.9
-     * @bodyParam categoria string required Categoria do produto. Example: Áudio
-     * @bodyParam estoque integer required Quantidade inicial em estoque. Example: 20
      *
      * @response 201 {
      *   "id": 21,
@@ -177,11 +152,6 @@ class ProdutoController extends Controller
      * Atualiza os dados de um produto.
      *
      * @urlParam produto integer required Identificador do produto. Example: 21
-     * @bodyParam nome string Nome do produto. Informe apenas quando desejar atualizar. Example: Caixa de Som Bluetooth Pro
-     * @bodyParam descricao string Descrição detalhada. Example: Versão com cancelamento de ruído ativo
-     * @bodyParam preco number Preço unitário. Example: 349.9
-     * @bodyParam categoria string Categoria do produto. Example: Áudio
-     * @bodyParam estoque integer Quantidade disponível. Example: 18
      *
      * @response 200 {
      *   "id": 21,

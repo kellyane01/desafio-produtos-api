@@ -23,7 +23,7 @@ return [
 
     // The base URL displayed in the docs.
     // If you're using `laravel` type, you can set this to a dynamic string, like '{{ config("app.tenant_url") }}' to get a dynamic base URL.
-    'base_url' => rtrim(config('app.url', env('APP_URL', 'http://localhost')), '/') . '/api/v1',
+    'base_url' => rtrim(config('app.url', env('APP_URL', 'http://localhost')), '/'),
 
     // Routes to include in the docs
     'routes' => [
@@ -120,7 +120,7 @@ return [
 
         // Placeholder your users will see for the auth parameter in the example requests.
         // Set this to null if you want Scribe to use a random value as placeholder instead.
-        'placeholder' => 'Bearer {ACCESS_TOKEN}',
+        'placeholder' => '{ACCESS_TOKEN}',
 
         // Any extra authentication-related info for your users. Markdown and HTML are supported.
         'extra_info' => 'Envie o token no cabeçalho Authorization no formato <code>Bearer {token}</code>.',

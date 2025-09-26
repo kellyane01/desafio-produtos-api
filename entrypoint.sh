@@ -69,12 +69,15 @@ case "$role" in
     echo "🗄️ Rodando migrations..."
     php artisan migrate --force
 
+    echo "👤 Garantindo usuário padrão..."
+    php artisan db:seed --class=UserSeeder --force || echo "⚠️ Falha ao garantir usuário padrão."
+
     should_seed=$(printf '%s' "${PRODUTO_SEED_ON_BOOT:-false}" | tr '[:upper:]' '[:lower:]')
     if [ "${should_seed}" = "true" ] || [ "${should_seed}" = "1" ] || [ "${should_seed}" = "yes" ]; then
-      echo "🌱 Executando seeders..."
+      echo "🌱 Executando seeders adicionais..."
       php artisan db:seed --force
     else
-      echo "🌱 Seeders ignorados no boot (PRODUTO_SEED_ON_BOOT=${PRODUTO_SEED_ON_BOOT:-false})."
+      echo "🌱 Seeders adicionais ignorados (PRODUTO_SEED_ON_BOOT=${PRODUTO_SEED_ON_BOOT:-false})."
     fi
 
     if [ "${SHOULD_REINDEX}" = "true" ] || [ "${SHOULD_REINDEX}" = "1" ] || [ "${SHOULD_REINDEX}" = "yes" ] || [ "${SHOULD_REINDEX}" = "fresh" ]; then
@@ -82,6 +85,14 @@ case "$role" in
       php artisan produto:search:reindex --fresh || echo "⚠️ Falha ao reindexar produtos no boot."
     else
       echo "🔄 Reindex no boot ignorado (PRODUTO_REINDEX_ON_BOOT=${PRODUTO_REINDEX_ON_BOOT:-false})."
+    fi
+
+    generate_docs=$(printf '%s' "${SCRIBE_GENERATE_ON_BOOT:-false}" | tr '[:upper:]' '[:lower:]')
+    if [ "${generate_docs}" = "true" ] || [ "${generate_docs}" = "1" ] || [ "${generate_docs}" = "yes" ]; then
+      echo "📘 Gerando documentação da API com Scribe..."
+      php artisan scribe:generate || echo "⚠️ Falha ao gerar documentação Scribe no boot."
+    else
+      echo "📘 Geração Scribe ignorada (SCRIBE_GENERATE_ON_BOOT=${SCRIBE_GENERATE_ON_BOOT:-false})."
     fi
 
     echo "🚀 Iniciando servidor Laravel..."

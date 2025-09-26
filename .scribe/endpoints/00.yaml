@@ -25,27 +25,27 @@ endpoints:
     bodyParameters:
       email:
         name: email
-        description: 'E-mail cadastrado do usuário.'
+        description: 'E-mail cadastrado do usuário. Must be a valid email address.'
         required: true
-        example: usuario@example.com
+        example: brena@gmail.com
         type: string
         enumValues: []
-        exampleWasSpecified: true
+        exampleWasSpecified: false
         nullable: false
         custom: []
       password:
         name: password
-        description: 'Senha do usuário.'
+        description: 'Senha correspondente ao usuário.'
         required: true
-        example: senha-segura
+        example: '12345678'
         type: string
         enumValues: []
-        exampleWasSpecified: true
+        exampleWasSpecified: false
         nullable: false
         custom: []
     cleanBodyParameters:
-      email: usuario@example.com
-      password: senha-segura
+      email: brena@gmail.com
+      password: '12345678'
     fileParameters: []
     responses:
       -
@@ -81,7 +81,7 @@ endpoints:
       deprecated: false
       custom: []
     headers:
-      Authorization: 'Bearer Bearer {ACCESS_TOKEN}'
+      Authorization: 'Bearer {ACCESS_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -172,7 +172,7 @@ endpoints:
       deprecated: false
       custom: []
     headers:
-      Authorization: 'Bearer Bearer {ACCESS_TOKEN}'
+      Authorization: 'Bearer {ACCESS_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []

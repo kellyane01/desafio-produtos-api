@@ -18,14 +18,6 @@ class LogController extends Controller
      * @group Logs
      * Lista os logs de auditoria aplicando filtros e paginação.
      *
-     * @queryParam model string Filtra pelo nome completo do modelo monitorado (ex.: App\Models\Produto). Example: App\Models\Produto
-     * @queryParam model_id integer Filtra pelos registros relacionados ao identificador informado. Example: 21
-     * @queryParam action string Ação registrada no log (create, update ou delete). Example: update
-     * @queryParam user_id integer Identificador do usuário responsável pela ação. Example: 5
-     * @queryParam from date Considerar registros a partir desta data (YYYY-MM-DD). Example: 2024-07-01
-     * @queryParam to date Considerar registros até esta data (YYYY-MM-DD). Example: 2024-07-15
-     * @queryParam per_page integer Quantidade de registros por página (1-100). Example: 20
-     *
      * @responseField data[].id integer Identificador do log.
      * @responseField data[].action string Ação executada.
      * @responseField data[].model string Classe do modelo associado.

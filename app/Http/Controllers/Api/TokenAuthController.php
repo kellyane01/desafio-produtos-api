@@ -19,9 +19,6 @@ class TokenAuthController extends Controller
      * Realiza o login e gera um token de acesso para futuras requisições autenticadas.
      *
      * @unauthenticated
-     * @bodyParam email string required E-mail cadastrado do usuário. Example: usuario@example.com
-     * @bodyParam password string required Senha do usuário. Example: senha-segura
-     *
      * @response 200 {"token_type":"Bearer","access_token":"1|pC6m2GdEXEMPLO"}
      * @response 422 {"message":"The given data was invalid.","errors":{"email":["Estas credenciais não conferem."]}}
      */

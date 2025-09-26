@@ -16,7 +16,7 @@ endpoints:
       deprecated: false
       custom: []
     headers:
-      Authorization: 'Bearer Bearer {ACCESS_TOKEN}'
+      Authorization: 'Bearer {ACCESS_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -24,108 +24,29 @@ endpoints:
     queryParameters:
       model:
         name: model
-        description: 'Filtra pelo nome completo do modelo monitorado (ex.: App\Models\Produto).'
+        description: 'Nome completo (FQCN) do modelo monitorado. Must not be greater than 255 characters.'
         required: false
         example: App\Models\Produto
         type: string
         enumValues: []
-        exampleWasSpecified: true
-        nullable: false
+        exampleWasSpecified: false
+        nullable: true
         custom: []
       model_id:
         name: model_id
-        description: 'Filtra pelos registros relacionados ao identificador informado.'
+        description: 'Filtra pelos registros relacionados ao identificador informado. Must be at least 1.'
         required: false
         example: 21
         type: integer
         enumValues: []
-        exampleWasSpecified: true
-        nullable: false
+        exampleWasSpecified: false
+        nullable: true
         custom: []
       action:
         name: action
-        description: 'Ação registrada no log (create, update ou delete).'
+        description: 'Tipo de ação executada (create, update ou delete).'
         required: false
         example: update
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        custom: []
-      user_id:
-        name: user_id
-        description: 'Identificador do usuário responsável pela ação.'
-        required: false
-        example: 5
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        custom: []
-      from:
-        name: from
-        description: 'date Considerar registros a partir desta data (YYYY-MM-DD).'
-        required: false
-        example: '2024-07-01'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        custom: []
-      to:
-        name: to
-        description: 'date Considerar registros até esta data (YYYY-MM-DD).'
-        required: false
-        example: '2024-07-15'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        custom: []
-      per_page:
-        name: per_page
-        description: 'Quantidade de registros por página (1-100).'
-        required: false
-        example: 20
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        custom: []
-    cleanQueryParameters:
-      model: App\Models\Produto
-      model_id: 21
-      action: update
-      user_id: 5
-      from: '2024-07-01'
-      to: '2024-07-15'
-      per_page: 20
-    bodyParameters:
-      model:
-        name: model
-        description: 'Must not be greater than 255 characters.'
-        required: false
-        example: b
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: true
-        custom: []
-      model_id:
-        name: model_id
-        description: 'Must be at least 1.'
-        required: false
-        example: 22
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: true
-        custom: []
-      action:
-        name: action
-        description: ''
-        required: false
-        example: create
         type: string
         enumValues:
           - create
@@ -136,9 +57,9 @@ endpoints:
         custom: []
       user_id:
         name: user_id
-        description: 'Must be at least 1.'
+        description: 'Identificador do usuário responsável pela ação. Must be at least 1.'
         required: false
-        example: 66
+        example: 5
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -146,9 +67,9 @@ endpoints:
         custom: []
       from:
         name: from
-        description: 'Must be a valid date.'
+        description: 'Considerar registros a partir desta data (YYYY-MM-DD). Must be a valid date.'
         required: false
-        example: '2025-09-26T14:59:59'
+        example: '2024-07-01'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -156,9 +77,9 @@ endpoints:
         custom: []
       to:
         name: to
-        description: 'Must be a valid date. Must be a date after or equal to <code>from</code>.'
+        description: 'Considerar registros até esta data (YYYY-MM-DD). Must be a valid date. Must be a date after or equal to <code>from</code>.'
         required: false
-        example: '2051-10-20'
+        example: '2024-07-15'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -166,22 +87,24 @@ endpoints:
         custom: []
       per_page:
         name: per_page
-        description: 'Must be at least 1. Must not be greater than 100.'
+        description: 'Quantidade de registros por página (1-100). Must be at least 1. Must not be greater than 100.'
         required: false
-        example: 22
+        example: 20
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: true
         custom: []
-    cleanBodyParameters:
-      model: b
-      model_id: 22
-      action: create
-      user_id: 66
-      from: '2025-09-26T14:59:59'
-      to: '2051-10-20'
-      per_page: 22
+    cleanQueryParameters:
+      model: App\Models\Produto
+      model_id: 21
+      action: update
+      user_id: 5
+      from: '2024-07-01'
+      to: '2024-07-15'
+      per_page: 20
+    bodyParameters: []
+    cleanBodyParameters: []
     fileParameters: []
     responses:
       -

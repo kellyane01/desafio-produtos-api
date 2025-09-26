@@ -52,4 +52,30 @@ class StoreProdutoRequest extends FormRequest
             'estoque' => 'estoque do produto',
         ];
     }
+
+    public function bodyParameters(): array
+    {
+        return [
+            'nome' => [
+                'description' => 'Nome do produto.',
+                'example' => 'Caixa de Som Bluetooth',
+            ],
+            'descricao' => [
+                'description' => 'Descrição detalhada do produto.',
+                'example' => 'Caixa portátil com bateria de 12h e proteção IP67.',
+            ],
+            'preco' => [
+                'description' => 'Preço unitário do produto.',
+                'example' => 299.9,
+            ],
+            'categoria' => [
+                'description' => 'Categoria em que o produto se enquadra.',
+                'example' => 'Áudio',
+            ],
+            'estoque' => [
+                'description' => 'Quantidade disponível em estoque.',
+                'example' => 20,
+            ],
+        ];
+    }
 }

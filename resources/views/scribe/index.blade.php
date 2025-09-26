@@ -27,7 +27,7 @@
             </style>
 
     <script>
-        var tryItOutBaseUrl = "http://localhost:8000/api/v1";
+        var tryItOutBaseUrl = "http://localhost:8000";
         var useCsrf = Boolean();
         var csrfUrl = "/sanctum/csrf-cookie";
     </script>
@@ -135,14 +135,14 @@
         <h1 id="introduction">Introduction</h1>
 <p>API REST para autenticação com Sanctum, gestão de produtos e registro de logs de auditoria.</p>
 <aside>
-    <strong>Base URL</strong>: <code>http://localhost:8000/api/v1</code>
+    <strong>Base URL</strong>: <code>http://localhost:8000</code>
 </aside>
 <pre><code>Utilize esta documentação para entender os fluxos de autenticação e a gestão dos recursos de produtos e logs.
 
 &lt;aside&gt;As chamadas da API exigem um token Bearer obtido após o login. Os exemplos de requisição abaixo podem ser executados diretamente pelo navegador através do botão "Try it out".&lt;/aside&gt;</code></pre>
 
         <h1 id="authenticating-requests">Authenticating requests</h1>
-<p>To authenticate requests, include an <strong><code>Authorization</code></strong> header with the value <strong><code>"Bearer Bearer {ACCESS_TOKEN}"</code></strong>.</p>
+<p>To authenticate requests, include an <strong><code>Authorization</code></strong> header with the value <strong><code>"Bearer {ACCESS_TOKEN}"</code></strong>.</p>
 <p>All authenticated endpoints are marked with a <code>requires authentication</code> badge in the documentation below.</p>
 <p>Envie o token no cabeçalho Authorization no formato <code>Bearer {token}</code>.</p>
 
@@ -163,19 +163,19 @@
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/api/v1/auth/login" \
+    "http://localhost:8000/api/v1/auth/login" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"email\": \"usuario@example.com\",
-    \"password\": \"senha-segura\"
+    \"email\": \"brena@gmail.com\",
+    \"password\": \"12345678\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/api/v1/auth/login"
+    "http://localhost:8000/api/v1/auth/login"
 );
 
 const headers = {
@@ -184,8 +184,8 @@ const headers = {
 };
 
 let body = {
-    "email": "usuario@example.com",
-    "password": "senha-segura"
+    "email": "brena@gmail.com",
+    "password": "12345678"
 };
 
 fetch(url, {
@@ -197,7 +197,7 @@ fetch(url, {
 
 <div class="php-example">
     <pre><code class="language-php">$client = new \GuzzleHttp\Client();
-$url = 'http://localhost:8000/api/v1/api/v1/auth/login';
+$url = 'http://localhost:8000/api/v1/auth/login';
 $response = $client-&gt;post(
     $url,
     [
@@ -206,8 +206,8 @@ $response = $client-&gt;post(
             'Accept' =&gt; 'application/json',
         ],
         'json' =&gt; [
-            'email' =&gt; 'usuario@example.com',
-            'password' =&gt; 'senha-segura',
+            'email' =&gt; 'brena@gmail.com',
+            'password' =&gt; '12345678',
         ],
     ]
 );
@@ -318,10 +318,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-v1-auth-login"
-               value="usuario@example.com"
+               value="brena@gmail.com"
                data-component="body">
     <br>
-<p>E-mail cadastrado do usuário. Example: <code>usuario@example.com</code></p>
+<p>E-mail cadastrado do usuário. Must be a valid email address. Example: <code>brena@gmail.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
@@ -329,10 +329,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="password"                data-endpoint="POSTapi-v1-auth-login"
-               value="senha-segura"
+               value="12345678"
                data-component="body">
     <br>
-<p>Senha do usuário. Example: <code>senha-segura</code></p>
+<p>Senha correspondente ao usuário. Example: <code>12345678</code></p>
         </div>
         </form>
 
@@ -350,19 +350,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/api/v1/auth/me" \
-    --header "Authorization: Bearer Bearer {ACCESS_TOKEN}" \
+    --get "http://localhost:8000/api/v1/auth/me" \
+    --header "Authorization: Bearer {ACCESS_TOKEN}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/api/v1/auth/me"
+    "http://localhost:8000/api/v1/auth/me"
 );
 
 const headers = {
-    "Authorization": "Bearer Bearer {ACCESS_TOKEN}",
+    "Authorization": "Bearer {ACCESS_TOKEN}",
     "Content-Type": "application/json",
     "Accept": "application/json",
 };
@@ -375,12 +375,12 @@ fetch(url, {
 
 <div class="php-example">
     <pre><code class="language-php">$client = new \GuzzleHttp\Client();
-$url = 'http://localhost:8000/api/v1/api/v1/auth/me';
+$url = 'http://localhost:8000/api/v1/auth/me';
 $response = $client-&gt;get(
     $url,
     [
         'headers' =&gt; [
-            'Authorization' =&gt; 'Bearer Bearer {ACCESS_TOKEN}',
+            'Authorization' =&gt; 'Bearer {ACCESS_TOKEN}',
             'Content-Type' =&gt; 'application/json',
             'Accept' =&gt; 'application/json',
         ],
@@ -459,10 +459,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="Authorization" class="auth-value"               data-endpoint="GETapi-v1-auth-me"
-               value="Bearer Bearer {ACCESS_TOKEN}"
+               value="Bearer {ACCESS_TOKEN}"
                data-component="header">
     <br>
-<p>Example: <code>Bearer Bearer {ACCESS_TOKEN}</code></p>
+<p>Example: <code>Bearer {ACCESS_TOKEN}</code></p>
             </div>
                                 <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
@@ -539,19 +539,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/api/v1/auth/logout" \
-    --header "Authorization: Bearer Bearer {ACCESS_TOKEN}" \
+    "http://localhost:8000/api/v1/auth/logout" \
+    --header "Authorization: Bearer {ACCESS_TOKEN}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/api/v1/auth/logout"
+    "http://localhost:8000/api/v1/auth/logout"
 );
 
 const headers = {
-    "Authorization": "Bearer Bearer {ACCESS_TOKEN}",
+    "Authorization": "Bearer {ACCESS_TOKEN}",
     "Content-Type": "application/json",
     "Accept": "application/json",
 };
@@ -564,12 +564,12 @@ fetch(url, {
 
 <div class="php-example">
     <pre><code class="language-php">$client = new \GuzzleHttp\Client();
-$url = 'http://localhost:8000/api/v1/api/v1/auth/logout';
+$url = 'http://localhost:8000/api/v1/auth/logout';
 $response = $client-&gt;post(
     $url,
     [
         'headers' =&gt; [
-            'Authorization' =&gt; 'Bearer Bearer {ACCESS_TOKEN}',
+            'Authorization' =&gt; 'Bearer {ACCESS_TOKEN}',
             'Content-Type' =&gt; 'application/json',
             'Accept' =&gt; 'application/json',
         ],
@@ -641,10 +641,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="Authorization" class="auth-value"               data-endpoint="POSTapi-v1-auth-logout"
-               value="Bearer Bearer {ACCESS_TOKEN}"
+               value="Bearer {ACCESS_TOKEN}"
                data-component="header">
     <br>
-<p>Example: <code>Bearer Bearer {ACCESS_TOKEN}</code></p>
+<p>Example: <code>Bearer {ACCESS_TOKEN}</code></p>
             </div>
                                 <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
@@ -688,25 +688,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/api/v1/logs?model=App%5CModels%5CProduto&amp;model_id=21&amp;action=update&amp;user_id=5&amp;from=2024-07-01&amp;to=2024-07-15&amp;per_page=20" \
-    --header "Authorization: Bearer Bearer {ACCESS_TOKEN}" \
+    --get "http://localhost:8000/api/v1/logs?model=App%5CModels%5CProduto&amp;model_id=21&amp;action=update&amp;user_id=5&amp;from=2024-07-01&amp;to=2024-07-15&amp;per_page=20" \
+    --header "Authorization: Bearer {ACCESS_TOKEN}" \
     --header "Content-Type: application/json" \
-    --header "Accept: application/json" \
-    --data "{
-    \"model\": \"b\",
-    \"model_id\": 22,
-    \"action\": \"create\",
-    \"user_id\": 66,
-    \"from\": \"2025-09-26T14:59:59\",
-    \"to\": \"2051-10-20\",
-    \"per_page\": 22
-}"
-</code></pre></div>
+    --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/api/v1/logs"
+    "http://localhost:8000/api/v1/logs"
 );
 
 const params = {
@@ -722,36 +712,25 @@ Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 const headers = {
-    "Authorization": "Bearer Bearer {ACCESS_TOKEN}",
+    "Authorization": "Bearer {ACCESS_TOKEN}",
     "Content-Type": "application/json",
     "Accept": "application/json",
-};
-
-let body = {
-    "model": "b",
-    "model_id": 22,
-    "action": "create",
-    "user_id": 66,
-    "from": "2025-09-26T14:59:59",
-    "to": "2051-10-20",
-    "per_page": 22
 };
 
 fetch(url, {
     method: "GET",
     headers,
-    body: JSON.stringify(body),
 }).then(response =&gt; response.json());</code></pre></div>
 
 
 <div class="php-example">
     <pre><code class="language-php">$client = new \GuzzleHttp\Client();
-$url = 'http://localhost:8000/api/v1/api/v1/logs';
+$url = 'http://localhost:8000/api/v1/logs';
 $response = $client-&gt;get(
     $url,
     [
         'headers' =&gt; [
-            'Authorization' =&gt; 'Bearer Bearer {ACCESS_TOKEN}',
+            'Authorization' =&gt; 'Bearer {ACCESS_TOKEN}',
             'Content-Type' =&gt; 'application/json',
             'Accept' =&gt; 'application/json',
         ],
@@ -763,15 +742,6 @@ $response = $client-&gt;get(
             'from' =&gt; '2024-07-01',
             'to' =&gt; '2024-07-15',
             'per_page' =&gt; '20',
-        ],
-        'json' =&gt; [
-            'model' =&gt; 'b',
-            'model_id' =&gt; 22,
-            'action' =&gt; 'create',
-            'user_id' =&gt; 66,
-            'from' =&gt; '2025-09-26T14:59:59',
-            'to' =&gt; '2051-10-20',
-            'per_page' =&gt; 22,
         ],
     ]
 );
@@ -875,10 +845,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="Authorization" class="auth-value"               data-endpoint="GETapi-v1-logs"
-               value="Bearer Bearer {ACCESS_TOKEN}"
+               value="Bearer {ACCESS_TOKEN}"
                data-component="header">
     <br>
-<p>Example: <code>Bearer Bearer {ACCESS_TOKEN}</code></p>
+<p>Example: <code>Bearer {ACCESS_TOKEN}</code></p>
             </div>
                                 <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
@@ -912,7 +882,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="App\Models\Produto"
                data-component="query">
     <br>
-<p>Filtra pelo nome completo do modelo monitorado (ex.: App\Models\Produto). Example: <code>App\Models\Produto</code></p>
+<p>Nome completo (FQCN) do modelo monitorado. Must not be greater than 255 characters. Example: <code>App\Models\Produto</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>model_id</code></b>&nbsp;&nbsp;
@@ -923,7 +893,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="21"
                data-component="query">
     <br>
-<p>Filtra pelos registros relacionados ao identificador informado. Example: <code>21</code></p>
+<p>Filtra pelos registros relacionados ao identificador informado. Must be at least 1. Example: <code>21</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>action</code></b>&nbsp;&nbsp;
@@ -934,7 +904,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="update"
                data-component="query">
     <br>
-<p>Ação registrada no log (create, update ou delete). Example: <code>update</code></p>
+<p>Tipo de ação executada (create, update ou delete). Example: <code>update</code></p>
+Must be one of:
+<ul style="list-style-type: square;"><li><code>create</code></li> <li><code>update</code></li> <li><code>delete</code></li></ul>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>user_id</code></b>&nbsp;&nbsp;
@@ -945,7 +917,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="5"
                data-component="query">
     <br>
-<p>Identificador do usuário responsável pela ação. Example: <code>5</code></p>
+<p>Identificador do usuário responsável pela ação. Must be at least 1. Example: <code>5</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>from</code></b>&nbsp;&nbsp;
@@ -956,7 +928,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="2024-07-01"
                data-component="query">
     <br>
-<p>date Considerar registros a partir desta data (YYYY-MM-DD). Example: <code>2024-07-01</code></p>
+<p>Considerar registros a partir desta data (YYYY-MM-DD). Must be a valid date. Example: <code>2024-07-01</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>to</code></b>&nbsp;&nbsp;
@@ -967,7 +939,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="2024-07-15"
                data-component="query">
     <br>
-<p>date Considerar registros até esta data (YYYY-MM-DD). Example: <code>2024-07-15</code></p>
+<p>Considerar registros até esta data (YYYY-MM-DD). Must be a valid date. Must be a date after or equal to <code>from</code>. Example: <code>2024-07-15</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>per_page</code></b>&nbsp;&nbsp;
@@ -978,89 +950,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="20"
                data-component="query">
     <br>
-<p>Quantidade de registros por página (1-100). Example: <code>20</code></p>
+<p>Quantidade de registros por página (1-100). Must be at least 1. Must not be greater than 100. Example: <code>20</code></p>
             </div>
-                        <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
-        <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>model</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
-<i>optional</i> &nbsp;
-                <input type="text" style="display: none"
-                              name="model"                data-endpoint="GETapi-v1-logs"
-               value="b"
-               data-component="body">
-    <br>
-<p>Must not be greater than 255 characters. Example: <code>b</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>model_id</code></b>&nbsp;&nbsp;
-<small>integer</small>&nbsp;
-<i>optional</i> &nbsp;
-                <input type="number" style="display: none"
-               step="any"               name="model_id"                data-endpoint="GETapi-v1-logs"
-               value="22"
-               data-component="body">
-    <br>
-<p>Must be at least 1. Example: <code>22</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>action</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
-<i>optional</i> &nbsp;
-                <input type="text" style="display: none"
-                              name="action"                data-endpoint="GETapi-v1-logs"
-               value="create"
-               data-component="body">
-    <br>
-<p>Example: <code>create</code></p>
-Must be one of:
-<ul style="list-style-type: square;"><li><code>create</code></li> <li><code>update</code></li> <li><code>delete</code></li></ul>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>user_id</code></b>&nbsp;&nbsp;
-<small>integer</small>&nbsp;
-<i>optional</i> &nbsp;
-                <input type="number" style="display: none"
-               step="any"               name="user_id"                data-endpoint="GETapi-v1-logs"
-               value="66"
-               data-component="body">
-    <br>
-<p>Must be at least 1. Example: <code>66</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>from</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
-<i>optional</i> &nbsp;
-                <input type="text" style="display: none"
-                              name="from"                data-endpoint="GETapi-v1-logs"
-               value="2025-09-26T14:59:59"
-               data-component="body">
-    <br>
-<p>Must be a valid date. Example: <code>2025-09-26T14:59:59</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>to</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
-<i>optional</i> &nbsp;
-                <input type="text" style="display: none"
-                              name="to"                data-endpoint="GETapi-v1-logs"
-               value="2051-10-20"
-               data-component="body">
-    <br>
-<p>Must be a valid date. Must be a date after or equal to <code>from</code>. Example: <code>2051-10-20</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>per_page</code></b>&nbsp;&nbsp;
-<small>integer</small>&nbsp;
-<i>optional</i> &nbsp;
-                <input type="number" style="display: none"
-               step="any"               name="per_page"                data-endpoint="GETapi-v1-logs"
-               value="22"
-               data-component="body">
-    <br>
-<p>Must be at least 1. Must not be greater than 100. Example: <code>22</code></p>
-        </div>
-        </form>
+                </form>
 
     <h3>Response</h3>
     <h4 class="fancy-heading-panel"><b>Response Fields</b></h4>
@@ -1149,24 +1041,24 @@ Must be one of:
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/api/v1/produtos?search=smartphone&amp;categoria=Eletr%C3%B4nicos&amp;categorias%5B%5D=%5B%22Eletr%C3%B4nicos%22%2C%22Inform%C3%A1tica%22%5D&amp;min_preco=100.9&amp;max_preco=999.9&amp;disponivel=1&amp;sort=preco&amp;order=desc&amp;page=2&amp;per_page=25" \
-    --header "Authorization: Bearer Bearer {ACCESS_TOKEN}" \
+    --get "http://localhost:8000/api/v1/produtos?search=smartphone&amp;categoria=Eletr%C3%B4nicos&amp;categorias[]=b&amp;min_preco=100.9&amp;max_preco=999.9&amp;disponivel=&amp;sort=preco&amp;order=desc&amp;page=2&amp;per_page=25" \
+    --header "Authorization: Bearer {ACCESS_TOKEN}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/api/v1/produtos"
+    "http://localhost:8000/api/v1/produtos"
 );
 
 const params = {
     "search": "smartphone",
     "categoria": "Eletrônicos",
-    "categorias[]": "["Eletrônicos","Informática"]",
+    "categorias[0]": "b",
     "min_preco": "100.9",
     "max_preco": "999.9",
-    "disponivel": "1",
+    "disponivel": "0",
     "sort": "preco",
     "order": "desc",
     "page": "2",
@@ -1176,7 +1068,7 @@ Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 const headers = {
-    "Authorization": "Bearer Bearer {ACCESS_TOKEN}",
+    "Authorization": "Bearer {ACCESS_TOKEN}",
     "Content-Type": "application/json",
     "Accept": "application/json",
 };
@@ -1189,22 +1081,22 @@ fetch(url, {
 
 <div class="php-example">
     <pre><code class="language-php">$client = new \GuzzleHttp\Client();
-$url = 'http://localhost:8000/api/v1/api/v1/produtos';
+$url = 'http://localhost:8000/api/v1/produtos';
 $response = $client-&gt;get(
     $url,
     [
         'headers' =&gt; [
-            'Authorization' =&gt; 'Bearer Bearer {ACCESS_TOKEN}',
+            'Authorization' =&gt; 'Bearer {ACCESS_TOKEN}',
             'Content-Type' =&gt; 'application/json',
             'Accept' =&gt; 'application/json',
         ],
         'query' =&gt; [
             'search' =&gt; 'smartphone',
             'categoria' =&gt; 'Eletrônicos',
-            'categorias[]' =&gt; '["Eletrônicos","Informática"]',
+            'categorias[0]' =&gt; 'b',
             'min_preco' =&gt; '100.9',
             'max_preco' =&gt; '999.9',
-            'disponivel' =&gt; '1',
+            'disponivel' =&gt; '0',
             'sort' =&gt; 'preco',
             'order' =&gt; 'desc',
             'page' =&gt; '2',
@@ -1307,10 +1199,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="Authorization" class="auth-value"               data-endpoint="GETapi-v1-produtos"
-               value="Bearer Bearer {ACCESS_TOKEN}"
+               value="Bearer {ACCESS_TOKEN}"
                data-component="header">
     <br>
-<p>Example: <code>Bearer Bearer {ACCESS_TOKEN}</code></p>
+<p>Example: <code>Bearer {ACCESS_TOKEN}</code></p>
             </div>
                                 <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
@@ -1355,18 +1247,20 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="Eletrônicos"
                data-component="query">
     <br>
-<p>Filtra por uma categoria específica. Example: <code>Eletrônicos</code></p>
+<p>Filtra por uma categoria específica. Must not be greater than 255 characters. Example: <code>Eletrônicos</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>categorias[]</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
+                <b style="line-height: 2;"><code>categorias</code></b>&nbsp;&nbsp;
+<small>string[]</small>&nbsp;
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
-                              name="categorias.0"                data-endpoint="GETapi-v1-produtos"
-               value="["Eletrônicos","Informática"]"
+                              name="categorias[0]"                data-endpoint="GETapi-v1-produtos"
+               data-component="query">
+        <input type="text" style="display: none"
+               name="categorias[1]"                data-endpoint="GETapi-v1-produtos"
                data-component="query">
     <br>
-<p>Filtra por múltiplas categorias (aceita array ou valores separados por vírgula). Example: <code>["Eletrônicos","Informática"]</code></p>
+<p>Must not be greater than 255 characters.</p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>min_preco</code></b>&nbsp;&nbsp;
@@ -1377,7 +1271,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="100.9"
                data-component="query">
     <br>
-<p>Limita a busca pelo preço mínimo. Example: <code>100.9</code></p>
+<p>Limite mínimo de preço dos produtos retornados. Must be at least 0. Example: <code>100.9</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>max_preco</code></b>&nbsp;&nbsp;
@@ -1388,7 +1282,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="999.9"
                data-component="query">
     <br>
-<p>Limita a busca pelo preço máximo. Example: <code>999.9</code></p>
+<p>Limite máximo de preço dos produtos retornados. Must be at least 0. Example: <code>999.9</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>disponivel</code></b>&nbsp;&nbsp;
@@ -1409,7 +1303,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <code>false</code>
         </label>
     <br>
-<p>Retorna apenas produtos com estoque (&gt;0) quando true ou esgotados quando false. Example: <code>true</code></p>
+<p>Define se apenas produtos com estoque (&gt;0) ou esgotados (&lt;=0) devem ser retornados. Example: <code>false</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>sort</code></b>&nbsp;&nbsp;
@@ -1421,6 +1315,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
                data-component="query">
     <br>
 <p>Campo utilizado na ordenação (nome, preco, categoria, estoque, created_at). Example: <code>preco</code></p>
+Must be one of:
+<ul style="list-style-type: square;"><li><code>nome</code></li> <li><code>preco</code></li> <li><code>categoria</code></li> <li><code>estoque</code></li> <li><code>created_at</code></li></ul>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>order</code></b>&nbsp;&nbsp;
@@ -1432,6 +1328,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
                data-component="query">
     <br>
 <p>Direção da ordenação (asc ou desc). Example: <code>desc</code></p>
+Must be one of:
+<ul style="list-style-type: square;"><li><code>asc</code></li> <li><code>desc</code></li></ul>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>page</code></b>&nbsp;&nbsp;
@@ -1442,7 +1340,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="2"
                data-component="query">
     <br>
-<p>Número da página a ser retornada. Example: <code>2</code></p>
+<p>Número da página a ser retornada. Must be at least 1. Example: <code>2</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>per_page</code></b>&nbsp;&nbsp;
@@ -1453,7 +1351,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="25"
                data-component="query">
     <br>
-<p>Quantidade de registros por página (1-100). Example: <code>25</code></p>
+<p>Quantidade de registros por página (1-100). Must be at least 1. Must not be greater than 100. Example: <code>25</code></p>
             </div>
                 </form>
 
@@ -1540,13 +1438,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/api/v1/produtos" \
-    --header "Authorization: Bearer Bearer {ACCESS_TOKEN}" \
+    "http://localhost:8000/api/v1/produtos" \
+    --header "Authorization: Bearer {ACCESS_TOKEN}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
     \"nome\": \"Caixa de Som Bluetooth\",
-    \"descricao\": \"Caixa portátil com bateria de 12h e proteção IP67\",
+    \"descricao\": \"Caixa portátil com bateria de 12h e proteção IP67.\",
     \"preco\": 299.9,
     \"categoria\": \"Áudio\",
     \"estoque\": 20
@@ -1556,18 +1454,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/api/v1/produtos"
+    "http://localhost:8000/api/v1/produtos"
 );
 
 const headers = {
-    "Authorization": "Bearer Bearer {ACCESS_TOKEN}",
+    "Authorization": "Bearer {ACCESS_TOKEN}",
     "Content-Type": "application/json",
     "Accept": "application/json",
 };
 
 let body = {
     "nome": "Caixa de Som Bluetooth",
-    "descricao": "Caixa portátil com bateria de 12h e proteção IP67",
+    "descricao": "Caixa portátil com bateria de 12h e proteção IP67.",
     "preco": 299.9,
     "categoria": "Áudio",
     "estoque": 20
@@ -1582,18 +1480,18 @@ fetch(url, {
 
 <div class="php-example">
     <pre><code class="language-php">$client = new \GuzzleHttp\Client();
-$url = 'http://localhost:8000/api/v1/api/v1/produtos';
+$url = 'http://localhost:8000/api/v1/produtos';
 $response = $client-&gt;post(
     $url,
     [
         'headers' =&gt; [
-            'Authorization' =&gt; 'Bearer Bearer {ACCESS_TOKEN}',
+            'Authorization' =&gt; 'Bearer {ACCESS_TOKEN}',
             'Content-Type' =&gt; 'application/json',
             'Accept' =&gt; 'application/json',
         ],
         'json' =&gt; [
             'nome' =&gt; 'Caixa de Som Bluetooth',
-            'descricao' =&gt; 'Caixa portátil com bateria de 12h e proteção IP67',
+            'descricao' =&gt; 'Caixa portátil com bateria de 12h e proteção IP67.',
             'preco' =&gt; 299.9,
             'categoria' =&gt; 'Áudio',
             'estoque' =&gt; 20,
@@ -1676,10 +1574,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="Authorization" class="auth-value"               data-endpoint="POSTapi-v1-produtos"
-               value="Bearer Bearer {ACCESS_TOKEN}"
+               value="Bearer {ACCESS_TOKEN}"
                data-component="header">
     <br>
-<p>Example: <code>Bearer Bearer {ACCESS_TOKEN}</code></p>
+<p>Example: <code>Bearer {ACCESS_TOKEN}</code></p>
             </div>
                                 <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
@@ -1713,7 +1611,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="Caixa de Som Bluetooth"
                data-component="body">
     <br>
-<p>Nome do produto. Example: <code>Caixa de Som Bluetooth</code></p>
+<p>Nome do produto. Must not be greater than 255 characters. Example: <code>Caixa de Som Bluetooth</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>descricao</code></b>&nbsp;&nbsp;
@@ -1721,10 +1619,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="descricao"                data-endpoint="POSTapi-v1-produtos"
-               value="Caixa portátil com bateria de 12h e proteção IP67"
+               value="Caixa portátil com bateria de 12h e proteção IP67."
                data-component="body">
     <br>
-<p>Descrição do produto. Example: <code>Caixa portátil com bateria de 12h e proteção IP67</code></p>
+<p>Descrição detalhada do produto. Example: <code>Caixa portátil com bateria de 12h e proteção IP67.</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>preco</code></b>&nbsp;&nbsp;
@@ -1735,7 +1633,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="299.9"
                data-component="body">
     <br>
-<p>Preço unitário. Example: <code>299.9</code></p>
+<p>Preço unitário do produto. Must be at least 0. Example: <code>299.9</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>categoria</code></b>&nbsp;&nbsp;
@@ -1746,7 +1644,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="Áudio"
                data-component="body">
     <br>
-<p>Categoria do produto. Example: <code>Áudio</code></p>
+<p>Categoria em que o produto se enquadra. Must not be greater than 255 characters. Example: <code>Áudio</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>estoque</code></b>&nbsp;&nbsp;
@@ -1757,7 +1655,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="20"
                data-component="body">
     <br>
-<p>Quantidade inicial em estoque. Example: <code>20</code></p>
+<p>Quantidade disponível em estoque. Must be at least 0. Example: <code>20</code></p>
         </div>
         </form>
 
@@ -1775,19 +1673,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/api/v1/produtos/16" \
-    --header "Authorization: Bearer Bearer {ACCESS_TOKEN}" \
+    --get "http://localhost:8000/api/v1/produtos/16" \
+    --header "Authorization: Bearer {ACCESS_TOKEN}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/api/v1/produtos/16"
+    "http://localhost:8000/api/v1/produtos/16"
 );
 
 const headers = {
-    "Authorization": "Bearer Bearer {ACCESS_TOKEN}",
+    "Authorization": "Bearer {ACCESS_TOKEN}",
     "Content-Type": "application/json",
     "Accept": "application/json",
 };
@@ -1800,12 +1698,12 @@ fetch(url, {
 
 <div class="php-example">
     <pre><code class="language-php">$client = new \GuzzleHttp\Client();
-$url = 'http://localhost:8000/api/v1/api/v1/produtos/16';
+$url = 'http://localhost:8000/api/v1/produtos/16';
 $response = $client-&gt;get(
     $url,
     [
         'headers' =&gt; [
-            'Authorization' =&gt; 'Bearer Bearer {ACCESS_TOKEN}',
+            'Authorization' =&gt; 'Bearer {ACCESS_TOKEN}',
             'Content-Type' =&gt; 'application/json',
             'Accept' =&gt; 'application/json',
         ],
@@ -1887,10 +1785,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="Authorization" class="auth-value"               data-endpoint="GETapi-v1-produtos--id-"
-               value="Bearer Bearer {ACCESS_TOKEN}"
+               value="Bearer {ACCESS_TOKEN}"
                data-component="header">
     <br>
-<p>Example: <code>Bearer Bearer {ACCESS_TOKEN}</code></p>
+<p>Example: <code>Bearer {ACCESS_TOKEN}</code></p>
             </div>
                                 <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
@@ -1953,13 +1851,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/v1/api/v1/produtos/16" \
-    --header "Authorization: Bearer Bearer {ACCESS_TOKEN}" \
+    "http://localhost:8000/api/v1/produtos/16" \
+    --header "Authorization: Bearer {ACCESS_TOKEN}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
     \"nome\": \"Caixa de Som Bluetooth Pro\",
-    \"descricao\": \"Versão com cancelamento de ruído ativo\",
+    \"descricao\": \"Versão com cancelamento de ruído ativo.\",
     \"preco\": 349.9,
     \"categoria\": \"Áudio\",
     \"estoque\": 18
@@ -1969,18 +1867,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/api/v1/produtos/16"
+    "http://localhost:8000/api/v1/produtos/16"
 );
 
 const headers = {
-    "Authorization": "Bearer Bearer {ACCESS_TOKEN}",
+    "Authorization": "Bearer {ACCESS_TOKEN}",
     "Content-Type": "application/json",
     "Accept": "application/json",
 };
 
 let body = {
     "nome": "Caixa de Som Bluetooth Pro",
-    "descricao": "Versão com cancelamento de ruído ativo",
+    "descricao": "Versão com cancelamento de ruído ativo.",
     "preco": 349.9,
     "categoria": "Áudio",
     "estoque": 18
@@ -1995,18 +1893,18 @@ fetch(url, {
 
 <div class="php-example">
     <pre><code class="language-php">$client = new \GuzzleHttp\Client();
-$url = 'http://localhost:8000/api/v1/api/v1/produtos/16';
+$url = 'http://localhost:8000/api/v1/produtos/16';
 $response = $client-&gt;put(
     $url,
     [
         'headers' =&gt; [
-            'Authorization' =&gt; 'Bearer Bearer {ACCESS_TOKEN}',
+            'Authorization' =&gt; 'Bearer {ACCESS_TOKEN}',
             'Content-Type' =&gt; 'application/json',
             'Accept' =&gt; 'application/json',
         ],
         'json' =&gt; [
             'nome' =&gt; 'Caixa de Som Bluetooth Pro',
-            'descricao' =&gt; 'Versão com cancelamento de ruído ativo',
+            'descricao' =&gt; 'Versão com cancelamento de ruído ativo.',
             'preco' =&gt; 349.9,
             'categoria' =&gt; 'Áudio',
             'estoque' =&gt; 18,
@@ -2093,10 +1991,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="Authorization" class="auth-value"               data-endpoint="PUTapi-v1-produtos--id-"
-               value="Bearer Bearer {ACCESS_TOKEN}"
+               value="Bearer {ACCESS_TOKEN}"
                data-component="header">
     <br>
-<p>Example: <code>Bearer Bearer {ACCESS_TOKEN}</code></p>
+<p>Example: <code>Bearer {ACCESS_TOKEN}</code></p>
             </div>
                                 <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
@@ -2147,57 +2045,57 @@ You can check the Dev Tools console for debugging information.</code></pre>
         <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>nome</code></b>&nbsp;&nbsp;
 <small>string</small>&nbsp;
-<i>optional</i> &nbsp;
+ &nbsp;
                 <input type="text" style="display: none"
                               name="nome"                data-endpoint="PUTapi-v1-produtos--id-"
                value="Caixa de Som Bluetooth Pro"
                data-component="body">
     <br>
-<p>Nome do produto. Informe apenas quando desejar atualizar. Example: <code>Caixa de Som Bluetooth Pro</code></p>
+<p>Nome do produto. Informe apenas ao atualizar este campo. Must not be greater than 255 characters. Example: <code>Caixa de Som Bluetooth Pro</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>descricao</code></b>&nbsp;&nbsp;
 <small>string</small>&nbsp;
-<i>optional</i> &nbsp;
+ &nbsp;
                 <input type="text" style="display: none"
                               name="descricao"                data-endpoint="PUTapi-v1-produtos--id-"
-               value="Versão com cancelamento de ruído ativo"
+               value="Versão com cancelamento de ruído ativo."
                data-component="body">
     <br>
-<p>Descrição detalhada. Example: <code>Versão com cancelamento de ruído ativo</code></p>
+<p>Descrição detalhada do produto. Example: <code>Versão com cancelamento de ruído ativo.</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>preco</code></b>&nbsp;&nbsp;
 <small>number</small>&nbsp;
-<i>optional</i> &nbsp;
+ &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="preco"                data-endpoint="PUTapi-v1-produtos--id-"
                value="349.9"
                data-component="body">
     <br>
-<p>Preço unitário. Example: <code>349.9</code></p>
+<p>Preço unitário do produto. Must be at least 0. Example: <code>349.9</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>categoria</code></b>&nbsp;&nbsp;
 <small>string</small>&nbsp;
-<i>optional</i> &nbsp;
+ &nbsp;
                 <input type="text" style="display: none"
                               name="categoria"                data-endpoint="PUTapi-v1-produtos--id-"
                value="Áudio"
                data-component="body">
     <br>
-<p>Categoria do produto. Example: <code>Áudio</code></p>
+<p>Categoria em que o produto está cadastrado. Must not be greater than 255 characters. Example: <code>Áudio</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>estoque</code></b>&nbsp;&nbsp;
 <small>integer</small>&nbsp;
-<i>optional</i> &nbsp;
+ &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="estoque"                data-endpoint="PUTapi-v1-produtos--id-"
                value="18"
                data-component="body">
     <br>
-<p>Quantidade disponível. Example: <code>18</code></p>
+<p>Quantidade disponível em estoque. Must be at least 0. Example: <code>18</code></p>
         </div>
         </form>
 
@@ -2215,19 +2113,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/v1/api/v1/produtos/16" \
-    --header "Authorization: Bearer Bearer {ACCESS_TOKEN}" \
+    "http://localhost:8000/api/v1/produtos/16" \
+    --header "Authorization: Bearer {ACCESS_TOKEN}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/api/v1/produtos/16"
+    "http://localhost:8000/api/v1/produtos/16"
 );
 
 const headers = {
-    "Authorization": "Bearer Bearer {ACCESS_TOKEN}",
+    "Authorization": "Bearer {ACCESS_TOKEN}",
     "Content-Type": "application/json",
     "Accept": "application/json",
 };
@@ -2240,12 +2138,12 @@ fetch(url, {
 
 <div class="php-example">
     <pre><code class="language-php">$client = new \GuzzleHttp\Client();
-$url = 'http://localhost:8000/api/v1/api/v1/produtos/16';
+$url = 'http://localhost:8000/api/v1/produtos/16';
 $response = $client-&gt;delete(
     $url,
     [
         'headers' =&gt; [
-            'Authorization' =&gt; 'Bearer Bearer {ACCESS_TOKEN}',
+            'Authorization' =&gt; 'Bearer {ACCESS_TOKEN}',
             'Content-Type' =&gt; 'application/json',
             'Accept' =&gt; 'application/json',
         ],
@@ -2317,10 +2215,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="Authorization" class="auth-value"               data-endpoint="DELETEapi-v1-produtos--id-"
-               value="Bearer Bearer {ACCESS_TOKEN}"
+               value="Bearer {ACCESS_TOKEN}"
                data-component="header">
     <br>
-<p>Example: <code>Bearer Bearer {ACCESS_TOKEN}</code></p>
+<p>Example: <code>Bearer {ACCESS_TOKEN}</code></p>
             </div>
                                 <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;

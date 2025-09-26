@@ -52,4 +52,30 @@ class UpdateProdutoRequest extends FormRequest
             'estoque' => 'estoque do produto',
         ];
     }
+
+    public function bodyParameters(): array
+    {
+        return [
+            'nome' => [
+                'description' => 'Nome do produto. Informe apenas ao atualizar este campo.',
+                'example' => 'Caixa de Som Bluetooth Pro',
+            ],
+            'descricao' => [
+                'description' => 'Descrição detalhada do produto.',
+                'example' => 'Versão com cancelamento de ruído ativo.',
+            ],
+            'preco' => [
+                'description' => 'Preço unitário do produto.',
+                'example' => 349.9,
+            ],
+            'categoria' => [
+                'description' => 'Categoria em que o produto está cadastrado.',
+                'example' => 'Áudio',
+            ],
+            'estoque' => [
+                'description' => 'Quantidade disponível em estoque.',
+                'example' => 18,
+            ],
+        ];
+    }
 }

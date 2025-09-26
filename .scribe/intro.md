@@ -3,7 +3,7 @@
 API REST para autenticação com Sanctum, gestão de produtos e registro de logs de auditoria.
 
 <aside>
-    <strong>Base URL</strong>: <code>http://localhost:8000/api/v1</code>
+    <strong>Base URL</strong>: <code>http://localhost:8000</code>
 </aside>
 
     Utilize esta documentação para entender os fluxos de autenticação e a gestão dos recursos de produtos e logs.

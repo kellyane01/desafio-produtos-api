@@ -82,4 +82,18 @@ class LoginRequest extends FormRequest
     {
         return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
     }
+
+    public function bodyParameters(): array
+    {
+        return [
+            'email' => [
+                'description' => 'E-mail cadastrado do usuário.',
+                'example' => 'brena@gmail.com',
+            ],
+            'password' => [
+                'description' => 'Senha correspondente ao usuário.',
+                'example' => '12345678',
+            ],
+        ];
+    }
 }
