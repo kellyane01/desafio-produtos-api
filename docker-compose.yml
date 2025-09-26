@@ -23,7 +23,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: laravel_worker
     volumes:
       - .:/var/www/html
     depends_on:

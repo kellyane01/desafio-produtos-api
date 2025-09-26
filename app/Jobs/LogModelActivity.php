@@ -14,6 +14,11 @@ class LogModelActivity implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
+     * Usa Redis como backend da fila, acompanhando a configuracao padrao do projeto.
+     */
+    public string $connection = 'redis';
+
+    /**
      * @param array<int|string, mixed>|null $data
      */
     public function __construct(

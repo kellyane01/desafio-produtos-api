@@ -49,8 +49,14 @@ REDIS_HOST=redis
 ### 3. Subir containers
 
 ``` sh
-docker-compose up --build -d
+docker-compose up --build --scale worker=3 -d
 ```
+
+### 📨 Fila de Jobs
+
+- O container `worker` executa `php artisan queue:work` conectado ao Redis e processa os logs de forma assíncrona.
+- Para acompanhar os jobs em execução, use `docker logs -f <nome-do-container>` (ex.: `docker logs -f produto-api-worker-1`).
+- Caso rode fora do Docker, certifique-se de iniciar manualmente um worker com `php artisan queue:work redis --tries=3 --timeout=90`.
 
 ### 4. Acessar o projeto
 
@@ -205,7 +211,7 @@ acima para testar diferentes volumes.
 -   [x] Autenticação (Laravel Breeze / Sanctum)\
 -   [x] CRUD de Produtos\
 -   [x] Paginação e filtros avançados\
--   [] Logs assíncronos com Jobs + Redis\
+-   [x] Logs assíncronos com Jobs + Redis\
 -   [x] Migrations, Seeders e Eloquent ORM\
 -   [x] Validação com Form Requests e mensagens personalizadas em português\
 -   [x] Resources para padronização de resposta\
