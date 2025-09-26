@@ -1,10 +1,12 @@
 #!/bin/bash
 set -e
 
-# Instalar dependências só se não existirem (primeiro run)
+role=${1:-serve}
+
+# Instalar dependências só se não existirem
 if [ ! -d "vendor" ]; then
   echo "📦 Instalando dependências com Composer..."
-  composer install
+  composer install --no-interaction --prefer-dist --optimize-autoloader
 fi
 
 # Gerar APP_KEY se ainda não existir
@@ -15,23 +17,39 @@ else
   echo "✅ APP_KEY já configurada."
 fi
 
-# Aguardar Postgres aceitar conexões antes das migrations
-DB_HOST=${DB_HOST:-postgres}
-DB_PORT=${DB_PORT:-5432}
-echo "⏳ Aguardando Postgres em ${DB_HOST}:${DB_PORT}..."
-until php -r "exit((int)!@fsockopen('${DB_HOST}', ${DB_PORT}));"; do
-  echo "🔁 Postgres indisponível, tentando novamente em 1s..."
-  sleep 1
-done
-echo "✅ Postgres disponível."
+# Função para esperar o Postgres ficar disponível
+wait_for_postgres() {
+  DB_HOST=${DB_HOST:-postgres}
+  DB_PORT=${DB_PORT:-5432}
+  echo "⏳ Aguardando Postgres em ${DB_HOST}:${DB_PORT}..."
+  until php -r "exit((int)!@fsockopen('${DB_HOST}', ${DB_PORT}));"; do
+    echo "🔁 Postgres indisponível, tentando novamente em 1s..."
+    sleep 1
+  done
+  echo "✅ Postgres disponível."
+}
 
-# Rodar migrations e seeders
-echo "🗄️ Rodando migrations..."
-php artisan migrate --force
+case "$role" in
+  serve)
+    wait_for_postgres
 
-echo "🌱 Executando seeders..."
-php artisan db:seed --force
+    echo "🗄️ Rodando migrations..."
+    php artisan migrate --force
 
-# Iniciar servidor
-echo "🚀 Iniciando servidor Laravel..."
-php artisan serve --host=0.0.0.0 --port=8000
+    echo "🌱 Executando seeders..."
+    php artisan db:seed --force
+
+    echo "🚀 Iniciando servidor Laravel..."
+    exec php artisan serve --host=0.0.0.0 --port=8000
+    ;;
+
+  queue)
+    wait_for_postgres
+    echo "🎯 Iniciando worker de filas..."
+    exec php artisan queue:work --tries=3 --timeout=90
+    ;;
+
+  *)
+    exec "$@"
+    ;;
+esac

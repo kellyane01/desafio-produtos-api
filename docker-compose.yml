@@ -16,6 +16,22 @@ services:
       - redis
     networks:
       - laravel
+    command: serve
+
+  # Worker (fila de jobs)
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel_worker
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - laravel
+    command: queue
 
   # Banco de Dados
   postgres:
