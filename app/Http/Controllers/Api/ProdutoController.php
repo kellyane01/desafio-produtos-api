@@ -23,8 +23,10 @@ class ProdutoController extends Controller
         $filters = $request->only([
             'search',
             'categoria',
+            'categorias',
             'min_preco',
             'max_preco',
+            'disponivel',
             'sort',
             'order',
             'page',

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\LogController;
 use App\Http\Controllers\Api\ProdutoController;
 use App\Http\Controllers\Api\TokenAuthController;
 use Illuminate\Http\Request;
@@ -24,6 +25,8 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::apiResource('produtos', ProdutoController::class);
+
+    Route::get('logs', [LogController::class, 'index']);
 
     Route::post('/logout', [TokenAuthController::class, 'logout']);
 });

@@ -117,16 +117,18 @@ Todas as rotas abaixo exigem o header `Authorization: Bearer {access_token}`:
 
 Combine os parametros conforme necessario. Exemplos na sequencia.
 
-| Parametro     | Tipo    | Descricao                                                                                       |
-|---------------|---------|----------------------------------------------------------------------------                     |
-| `page`        | int     | Numero da pagina (comeca em 1). Default: pagina atual resolvida pelo Laravel.                   |
-| `per_page`    | int     | Quantidade de itens por pagina. Valores <= 0 voltam ao default de 15.                           |
-| `search`      | string  | Busca parcial em `nome`, `descricao` e `categoria`.                                             |
-| `categoria`   | string  | Filtra por igualdade exata da categoria.                                                        |
-| `min_preco`   | float   | Filtra produtos com preco maior ou igual ao informado.                                          |
-| `max_preco`   | float   | Filtra produtos com preco menor ou igual ao informado.                                          |
-| `sort`        | string  | Coluna de ordenacao (`nome`, `preco`, `categoria`, `estoque`, `created_at`). Default: `nome`.   |
-| `order`       | string  | Direcao da ordenacao (`asc` ou `desc`). Default: `asc`.                                         |
+| Parametro     | Tipo        | Descricao                                                                                       |
+|---------------|-------------|------------------------------------------------------------------------------------------------|
+| `page`        | int         | Numero da pagina (comeca em 1). Default: pagina atual resolvida pelo Laravel.                   |
+| `per_page`    | int         | Quantidade de itens por pagina. Valores <= 0 voltam ao default de 15.                           |
+| `search`      | string      | Busca parcial em `nome`, `descricao` e `categoria`.                                             |
+| `categoria`   | string      | Filtra por igualdade exata da categoria.                                                        |
+| `categorias`  | string/array| Filtra por multiplas categorias (separadas por virgula ou enviadas como array).               |
+| `min_preco`   | float       | Filtra produtos com preco maior ou igual ao informado.                                          |
+| `max_preco`   | float       | Filtra produtos com preco menor ou igual ao informado.                                          |
+| `disponivel`  | bool        | `true` para estoque > 0, `false` para estoque <= 0.                                             |
+| `sort`        | string      | Coluna de ordenacao (`nome`, `preco`, `categoria`, `estoque`, `created_at`). Default: `nome`.   |
+| `order`       | string      | Direcao da ordenacao (`asc` ou `desc`). Default: `asc`.                                         |
 
 Exemplos:
 
@@ -136,12 +138,14 @@ GET /api/produtos?page=2
 GET /api/produtos?sort=preco&order=desc
 
 GET /api/produtos?categoria=eletronicos&min_preco=100&per_page=15&page=3
+
+GET /api/produtos?categorias=eletronicos,acessorios&disponivel=true
 ```
 
 #### 🚀 Cache de resultados
 
 - Os resultados paginados sao armazenados no Redis usando tags `produtos` por 5 minutos.
-- Qualquer combinacao de parametros (`search`, `categoria`, `min_preco`, `max_preco`, `sort`, `order`, `per_page`, `page`) gera uma chave unica. Consultas repetidas dentro do TTL retornam a resposta em cache, reduzindo leituras no banco.
+- Qualquer combinacao de parametros (`search`, `categoria`, `categorias`, `min_preco`, `max_preco`, `disponivel`, `sort`, `order`, `per_page`, `page`) gera uma chave unica. Consultas repetidas dentro do TTL retornam a resposta em cache, reduzindo leituras no banco.
 - Operacoes de escrita (`POST`, `PUT`, `DELETE`) invalidam a tag `produtos`, garantindo que novas consultas tragam dados atualizados.
 - Certifique-se de que o cache padrao (`CACHE_STORE` no `.env`) esteja configurado para Redis em ambientes que devem se beneficiar do cache.
 
