@@ -201,7 +201,7 @@ class Handler extends ExceptionHandler
             Response::HTTP_METHOD_NOT_ALLOWED => 'METHOD_NOT_ALLOWED',
             Response::HTTP_CONFLICT => 'CONFLICT',
             Response::HTTP_TOO_MANY_REQUESTS => 'TOO_MANY_REQUESTS',
-            default => 'HTTP_ERROR_' . $status,
+            default => 'HTTP_ERROR_'.$status,
         };
     }
 }

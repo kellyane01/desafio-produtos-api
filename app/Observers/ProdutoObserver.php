@@ -32,7 +32,7 @@ class ProdutoObserver
     }
 
     /**
-     * @param array<string, mixed> $attributes
+     * @param  array<string, mixed>  $attributes
      */
     private function dispatchLog(Produto $produto, string $action, array $attributes): void
     {
@@ -54,7 +54,7 @@ class ProdutoObserver
     }
 
     /**
-     * @param array<string, mixed> $attributes
+     * @param  array<string, mixed>  $attributes
      * @return array<string, mixed>
      */
     private function extractAttributes(Produto $produto, array $attributes): array

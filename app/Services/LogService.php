@@ -7,9 +7,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class LogService
 {
-    public function __construct(private readonly LogRepositoryInterface $repository)
-    {
-    }
+    public function __construct(private readonly LogRepositoryInterface $repository) {}
 
     public function list(array $filters = [], int $perPage = 15): LengthAwarePaginator
     {

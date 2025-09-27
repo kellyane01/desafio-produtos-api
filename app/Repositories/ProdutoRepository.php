@@ -13,7 +13,7 @@ class ProdutoRepository implements ProdutoRepositoryInterface
     {
         $query = Produto::query();
 
-        if (!empty($filters['search'])) {
+        if (! empty($filters['search'])) {
             $search = $filters['search'];
 
             $query->where(function ($query) use ($search) {
@@ -23,19 +23,19 @@ class ProdutoRepository implements ProdutoRepositoryInterface
             });
         }
 
-        if (!empty($filters['categoria'])) {
+        if (! empty($filters['categoria'])) {
             $query->where('categoria', $filters['categoria']);
         }
 
         $normalizedCategories = null;
-        if (!empty($filters['categorias'])) {
+        if (! empty($filters['categorias'])) {
             $rawCategories = is_array($filters['categorias'])
                 ? $filters['categorias']
                 : explode(',', $filters['categorias']);
 
             $categoryList = array_values(array_filter(array_map('trim', $rawCategories)));
 
-            if (!empty($categoryList)) {
+            if (! empty($categoryList)) {
                 sort($categoryList);
                 $normalizedCategories = $categoryList;
                 $query->whereIn('categoria', $categoryList);
@@ -65,12 +65,12 @@ class ProdutoRepository implements ProdutoRepositoryInterface
 
         $sortableColumns = ['nome', 'preco', 'categoria', 'estoque', 'created_at'];
         $sortColumn = $filters['sort'] ?? 'nome';
-        if (!in_array($sortColumn, $sortableColumns, true)) {
+        if (! in_array($sortColumn, $sortableColumns, true)) {
             $sortColumn = 'nome';
         }
 
         $sortDirection = strtolower($filters['order'] ?? 'asc');
-        if (!in_array($sortDirection, ['asc', 'desc'], true)) {
+        if (! in_array($sortDirection, ['asc', 'desc'], true)) {
             $sortDirection = 'asc';
         }
 

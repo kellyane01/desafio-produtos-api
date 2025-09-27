@@ -12,28 +12,28 @@ class LogRepository implements LogRepositoryInterface
     {
         $query = Log::query();
 
-        if (!empty($filters['model'])) {
+        if (! empty($filters['model'])) {
             $query->where('model', $filters['model']);
         }
 
-        if (!empty($filters['model_id'])) {
+        if (! empty($filters['model_id'])) {
             $query->where('model_id', (int) $filters['model_id']);
         }
 
-        if (!empty($filters['action'])) {
+        if (! empty($filters['action'])) {
             $query->where('action', $filters['action']);
         }
 
-        if (!empty($filters['user_id'])) {
+        if (! empty($filters['user_id'])) {
             $query->where('user_id', (int) $filters['user_id']);
         }
 
-        if (!empty($filters['from'])) {
+        if (! empty($filters['from'])) {
             $from = Carbon::parse($filters['from'])->startOfDay();
             $query->where('created_at', '>=', $from);
         }
 
-        if (!empty($filters['to'])) {
+        if (! empty($filters['to'])) {
             $to = Carbon::parse($filters['to'])->endOfDay();
             $query->where('created_at', '<=', $to);
         }

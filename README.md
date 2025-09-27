@@ -194,6 +194,16 @@ curl -X GET "http://localhost:8000/api/v1/produtos/1" \
 
 ---
 
+## Padronização do Código
+- `composer lint` valida o projeto com o Laravel Pint (modo somente leitura).
+- `composer lint:fix` aplica automaticamente os ajustes definidos em `pint.json`.
+- Arquivos de build/cache (`bootstrap`, `storage`, `vendor`) ficam fora do escopo para evitar ruído.
+
+Laravel Pint usa o preset oficial do framework em `pint.json`, então a estilização é consistente com o ecossistema do Laravel e compatível com o PHP-CS-Fixer.
+
+---
+
+
 ## Testes Automatizados
 ```sh
 ./vendor/bin/phpunit

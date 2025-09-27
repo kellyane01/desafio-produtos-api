@@ -10,9 +10,7 @@ use Illuminate\Http\JsonResponse;
 
 class LogController extends Controller
 {
-    public function __construct(private readonly LogService $service)
-    {
-    }
+    public function __construct(private readonly LogService $service) {}
 
     /**
      * @group Logs

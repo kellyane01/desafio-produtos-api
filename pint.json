@@ -1,0 +1,17 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "class_attributes_separation": {
+            "elements": {
+                "const": "one",
+                "method": "one",
+                "property": "one"
+            }
+        }
+    },
+    "exclude": [
+        "bootstrap",
+        "storage",
+        "vendor"
+    ]
+}

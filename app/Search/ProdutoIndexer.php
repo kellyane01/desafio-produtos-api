@@ -14,8 +14,7 @@ class ProdutoIndexer
     public function __construct(
         private readonly Client $client,
         private readonly ProdutoIndexConfigurator $configurator,
-    ) {
-    }
+    ) {}
 
     public function indexById(int $produtoId): void
     {
@@ -51,7 +50,7 @@ class ProdutoIndexer
     }
 
     /**
-     * @param Collection<int, Produto> $produtos
+     * @param  Collection<int, Produto>  $produtos
      */
     public function bulk(Collection $produtos): void
     {

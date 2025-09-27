@@ -12,9 +12,7 @@ class ProdutoIndexConfigurator
 {
     private bool $checked = false;
 
-    public function __construct(private readonly Client $client)
-    {
-    }
+    public function __construct(private readonly Client $client) {}
 
     public function indexName(): string
     {
@@ -99,9 +97,6 @@ class ProdutoIndexConfigurator
         return true;
     }
 
-    /**
-     * @param Elasticsearch|bool $response
-     */
     private function asBool(Elasticsearch|bool $response): bool
     {
         if (is_bool($response)) {

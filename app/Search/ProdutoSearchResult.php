@@ -7,8 +7,8 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 class ProdutoSearchResult
 {
     /**
-     * @param array<int, string> $suggestions
-     * @param array<int, array<string, mixed>> $highlights
+     * @param  array<int, string>  $suggestions
+     * @param  array<int, array<string, mixed>>  $highlights
      */
     public function __construct(
         private readonly LengthAwarePaginator $paginator,
@@ -16,8 +16,7 @@ class ProdutoSearchResult
         private readonly array $highlights = [],
         private readonly bool $usingElasticsearch = false,
         private readonly ?float $maxScore = null,
-    ) {
-    }
+    ) {}
 
     public function paginator(): LengthAwarePaginator
     {

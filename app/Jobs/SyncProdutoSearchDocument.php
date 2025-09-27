@@ -18,6 +18,7 @@ class SyncProdutoSearchDocument implements ShouldQueue
     use SerializesModels;
 
     public const OPERATION_UPSERT = 'upsert';
+
     public const OPERATION_DELETE = 'delete';
 
     public int $tries = 3;

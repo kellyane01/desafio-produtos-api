@@ -17,8 +17,7 @@ class ProdutoSearchEngine
     public function __construct(
         private readonly Client $client,
         private readonly ProdutoIndexConfigurator $indexConfigurator,
-    ) {
-    }
+    ) {}
 
     private ?string $lastFailureReason = null;
 
@@ -33,6 +32,7 @@ class ProdutoSearchEngine
 
         if (! $this->indexConfigurator->exists()) {
             $this->lastFailureReason = 'index_unavailable';
+
             return null;
         }
 
@@ -41,6 +41,7 @@ class ProdutoSearchEngine
 
         if ($searchTerm === '') {
             $this->lastFailureReason = 'empty_search';
+
             return null;
         }
 
@@ -69,6 +70,7 @@ class ProdutoSearchEngine
             if ($status === 404) {
                 Log::warning('Índice de produtos não encontrado no Elasticsearch durante busca.');
                 $this->lastFailureReason = 'index_missing';
+
                 return null;
             }
 
@@ -77,6 +79,7 @@ class ProdutoSearchEngine
             Log::warning('Não foi possível consultar o Elasticsearch: nenhum nó disponível.');
 
             $this->lastFailureReason = 'no_node_available';
+
             return null;
         }
 
@@ -295,8 +298,8 @@ class ProdutoSearchEngine
             'pre_tags' => ['<em>'],
             'post_tags' => ['</em>'],
             'fields' => [
-                'nome' => new \stdClass(),
-                'descricao' => new \stdClass(),
+                'nome' => new \stdClass,
+                'descricao' => new \stdClass,
             ],
         ];
     }
@@ -326,7 +329,7 @@ class ProdutoSearchEngine
     }
 
     /**
-     * @param array<string, mixed> $response
+     * @param  array<string, mixed>  $response
      * @return array<int, string>
      */
     private function extractSuggestions(array $response): array
@@ -347,7 +350,7 @@ class ProdutoSearchEngine
     }
 
     /**
-     * @param array<int, string>|string $categorias
+     * @param  array<int, string>|string  $categorias
      * @return array<int, string>
      */
     private function normalizeCategories(array|string $categorias): array

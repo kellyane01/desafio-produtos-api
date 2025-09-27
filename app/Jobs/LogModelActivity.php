@@ -14,7 +14,7 @@ class LogModelActivity implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @param array<int|string, mixed>|null $data
+     * @param  array<int|string, mixed>|null  $data
      */
     public function __construct(
         private readonly string $action,
@@ -22,8 +22,7 @@ class LogModelActivity implements ShouldQueue
         private readonly int $modelId,
         private readonly ?array $data = null,
         private readonly ?int $userId = null,
-    ) {
-    }
+    ) {}
 
     public function handle(): void
     {
@@ -37,7 +36,7 @@ class LogModelActivity implements ShouldQueue
     }
 
     /**
-     * @param array<int|string, mixed>|null $data
+     * @param  array<int|string, mixed>|null  $data
      */
     private function normalize(?array $data): ?array
     {

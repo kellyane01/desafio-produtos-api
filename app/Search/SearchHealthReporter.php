@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 class SearchHealthReporter
 {
     private const STATUS_CACHE_KEY = 'search:elasticsearch:status';
+
     private const LAST_FAILURE_LOGGED_AT = 'search:elasticsearch:last_failure_logged_at';
 
     public function recordFailure(string $reason, array $context = []): void

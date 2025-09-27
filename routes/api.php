@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\LogController;
 use App\Http\Controllers\Api\ProdutoController;
 use App\Http\Controllers\Api\TokenAuthController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*

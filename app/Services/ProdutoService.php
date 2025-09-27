@@ -16,9 +16,7 @@ class ProdutoService
         private readonly ProdutoRepositoryInterface $repository,
         private readonly ProdutoSearchEngine $searchEngine,
         private readonly SearchHealthReporter $searchHealthReporter,
-    )
-    {
-    }
+    ) {}
 
     public function list(array $filters = [], int $perPage = 15): ProdutoSearchResult
     {
@@ -27,6 +25,7 @@ class ProdutoService
 
             if ($result !== null) {
                 $this->searchHealthReporter->recordSuccess();
+
                 return $result;
             }
 
