@@ -19,8 +19,8 @@ services:
       - laravel
     command: serve
 
-  # Worker (fila de jobs)
-  worker:
+  # Horizon (fila de jobs + dashboard)
+  horizon:
     build:
       context: .
       dockerfile: Dockerfile
@@ -32,7 +32,7 @@ services:
       - elasticsearch
     networks:
       - laravel
-    command: queue
+    command: horizon
 
   # Banco de Dados
   postgres:

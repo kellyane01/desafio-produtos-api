@@ -10,7 +10,7 @@ API RESTful para gerenciamento de produtos construída em Laravel 10. Inclui aut
 - 📦 CRUD completo de produtos com filtros, paginação e detalhamento
 - 🧾 Logs assíncronos disparados por Jobs observando eventos do domínio
 - 🧪 Testes com PHPUnit e padronização com Laravel Pint
-- 🐳 Docker Compose sobe tudo com um único comando (`docker-compose up --build --scale worker=3 -d`)
+- 🐳 Docker Compose sobe tudo com um único comando (`docker-compose up --build -d`)
 
 ---
 
@@ -68,11 +68,11 @@ API RESTful para gerenciamento de produtos construída em Laravel 10. Inclui aut
 - [ ] Docker e Docker Compose instalados
 - [ ] Repositório clonado `git clone https://github.com/kellyane01/desafio-produtos-api`
 - [ ] Arquivo `.env` criado (`cp .env.example .env`) e ajustado
-- [ ] Containers no ar `docker-compose up --build --scale worker=3 -d`
+- [ ] Containers no ar `docker-compose up --build -d`
 - [ ] (Linux) `sudo sysctl -w vm.max_map_count=262144` antes do Elasticsearch
 - [ ] API respondendo em http://localhost:8000
 
-> Quer ver os logs da fila? `docker logs -f produto-api-worker-1`
+> Quer ver os logs da fila? `docker-compose logs -f horizon`
 
 ---
 
@@ -102,6 +102,7 @@ PRODUTO_SEED_ON_BOOT=false
 - Base path versionado: http://localhost:8000/api/v1
 - pgAdmin: http://localhost:5050 (email `admin@admin.com`, senha `secret`)
 - Credenciais semeadas: email `brena@gmail.com`, senha `12345678`
+- Horizon Dashboard: http://localhost:8000/horizon (autenticado automaticamente em `APP_ENV=local`)
 
 Após subir os containers, o Laravel executa migrations e seeds essenciais, aguardando PostgreSQL, Redis e Elasticsearch para iniciar de forma consistente.
 
@@ -160,7 +161,7 @@ curl -X GET "http://localhost:8000/api/v1/produtos/1" \
 
 ## Arquitetura e Organização
 - PHP 8.2, Laravel 10 LTS, PostgreSQL 15, Redis e Elasticsearch.
-- Docker Compose orquestra API, banco, cache, fila, pgAdmin e workers.
+- Docker Compose orquestra API, banco, cache, fila, pgAdmin e Horizon.
 - Versionamento das rotas em `/api/v1`.
 - Serviços em `app/Services`, Repositórios em `app/Repositories`, Observers em `app/Observers`.
 - Controllers focados em orquestrar fluxo HTTP; regra de negócio concentrada em serviços.
@@ -170,9 +171,15 @@ curl -X GET "http://localhost:8000/api/v1/produtos/1" \
 
 ## Processamento Assíncrono e Observabilidade
 - `ProdutoObserver` dispara `DispatchProdutoLogJob` para registrar ações no `LogRepository`.
-- Containers `worker` executam `php artisan queue:work redis --tries=3 --timeout=90`.
-- Monitoramento de filas via Laravel Horizon (pronto para ser conectado).
+- O serviço `horizon` executa `php artisan horizon` (spawn de workers automáticos).
+- Monitoramento de filas via Laravel Horizon exposto em `/horizon` (restrições configuráveis via `HORIZON_ALLOWED_EMAILS`).
 - `storage/logs/search.log` centraliza logs de busca; níveis ajustáveis via `LOG_SEARCH_LEVEL`.
+
+### Horizon Dashboard
+- Dashboard disponível em http://localhost:8000/horizon quando `APP_ENV=local`.
+- Defina `HORIZON_ALLOWED_EMAILS` (lista separada por vírgula) para liberar acesso em outros ambientes.
+- Ajuste quantidade de workers com `HORIZON_LOCAL_MAX_PROCESSES`, `HORIZON_MAX_PROCESSES` etc., conforme a necessidade.
+- `docker-compose logs -f horizon` acompanha os supervisores e processos ativos.
 
 ---
 

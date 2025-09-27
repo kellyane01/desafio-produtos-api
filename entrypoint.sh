@@ -135,6 +135,13 @@ case "$role" in
     echo "🎯 Iniciando worker de filas..."
     exec php artisan queue:work --queue=default,search-sync --tries=3 --timeout=90
     ;;
+  horizon)
+    wait_for_redis
+    wait_for_postgres
+    wait_for_elasticsearch
+    echo "📈 Iniciando Laravel Horizon..."
+    exec php artisan horizon
+    ;;
 
   *)
     exec "$@"
