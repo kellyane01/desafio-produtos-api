@@ -18,7 +18,7 @@ class TokenAuthApiTest extends TestCase
             'email' => 'api-user@example.com',
         ]);
 
-        $response = $this->postJson('/api/login', [
+        $response = $this->postJson('/api/v1/auth/login', [
             'email' => $user->email,
             'password' => 'password',
         ]);
@@ -47,7 +47,7 @@ class TokenAuthApiTest extends TestCase
             'email' => 'invalid-user@example.com',
         ]);
 
-        $response = $this->postJson('/api/login', [
+        $response = $this->postJson('/api/v1/auth/login', [
             'email' => $user->email,
             'password' => 'WrongPassword123',
         ]);
@@ -71,7 +71,7 @@ class TokenAuthApiTest extends TestCase
 
         $response = $this
             ->withHeader('Authorization', 'Bearer '.$token->plainTextToken)
-            ->postJson('/api/logout');
+            ->postJson('/api/v1/auth/logout');
 
         $response->assertNoContent();
 

@@ -76,7 +76,7 @@ class ProdutoSearchMetaTest extends TestCase
 
         $this->app->instance(ProdutoSearchEngine::class, $searchEngine);
 
-        $response = $this->getJson('/api/produtos?search=notebook');
+        $response = $this->getJson('/api/v1/produtos?search=notebook');
 
         $response
             ->assertOk()

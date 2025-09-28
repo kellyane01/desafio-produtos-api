@@ -15,21 +15,21 @@ class LogApiTest extends TestCase
 
     public function test_logs_endpoint_requires_authentication(): void
     {
-        $this->getJson('/api/logs')->assertUnauthorized();
+        $this->getJson('/api/v1/logs')->assertUnauthorized();
     }
 
     public function test_logs_endpoint_returns_filtered_results(): void
     {
         Carbon::setTestNow(Carbon::parse('2024-01-01 09:00:00'));
         $baseline = Log::factory()->create([
-            'model' => 'Produto',
+            'model' => 'App\\Models\\Produto',
             'action' => 'create',
             'model_id' => 10,
         ]);
 
         Carbon::setTestNow(Carbon::parse('2024-01-10 12:00:00'));
         $expected = Log::factory()->create([
-            'model' => 'Produto',
+            'model' => 'App\\Models\\Produto',
             'action' => 'update',
             'model_id' => 10,
             'user_id' => 5,
@@ -37,7 +37,7 @@ class LogApiTest extends TestCase
 
         Carbon::setTestNow(Carbon::parse('2024-01-15 08:00:00'));
         Log::factory()->create([
-            'model' => 'Pedido',
+            'model' => 'App\\Models\\Pedido',
             'action' => 'delete',
             'model_id' => 99,
         ]);
@@ -47,7 +47,13 @@ class LogApiTest extends TestCase
         $user = User::factory()->create();
         Sanctum::actingAs($user);
 
-        $response = $this->getJson('/api/logs?model=Produto&model_id=10&action=update&from=2024-01-05&to=2024-01-12');
+        $response = $this->getJson('/api/v1/logs?'.http_build_query([
+            'model' => 'App\\Models\\Produto',
+            'model_id' => 10,
+            'action' => 'update',
+            'from' => '2024-01-05',
+            'to' => '2024-01-12',
+        ]));
 
         $response
             ->assertOk()
@@ -55,7 +61,7 @@ class LogApiTest extends TestCase
             ->assertJsonFragment([
                 'id' => $expected->id,
                 'action' => 'update',
-                'model' => 'Produto',
+                'model' => 'App\\Models\\Produto',
                 'model_id' => 10,
             ])
             ->assertJsonStructure([

@@ -11,7 +11,7 @@ class ProdutoObserver
 {
     public function created(Produto $produto): void
     {
-        $this->dispatchLog($produto, 'create', $produto->getAttributes());
+        $this->dispatchLog($produto, 'create');
         SyncProdutoSearchDocument::dispatchUpsert($produto);
     }
 
@@ -21,20 +21,17 @@ class ProdutoObserver
             return;
         }
 
-        $this->dispatchLog($produto, 'update', $produto->getAttributes());
+        $this->dispatchLog($produto, 'update');
         SyncProdutoSearchDocument::dispatchUpsert($produto);
     }
 
     public function deleted(Produto $produto): void
     {
-        $this->dispatchLog($produto, 'delete', $produto->getOriginal());
+        $this->dispatchLog($produto, 'delete');
         SyncProdutoSearchDocument::dispatchDelete($produto);
     }
 
-    /**
-     * @param  array<string, mixed>  $attributes
-     */
-    private function dispatchLog(Produto $produto, string $action, array $attributes): void
+    private function dispatchLog(Produto $produto, string $action): void
     {
         $modelId = $this->resolveModelId($produto);
 
@@ -42,25 +39,71 @@ class ProdutoObserver
             return;
         }
 
-        $data = $this->extractAttributes($produto, $attributes);
+        $payload = $this->buildLogPayload($produto, $action);
+
+        if ($payload === null) {
+            return;
+        }
 
         LogModelActivity::dispatch(
             action: $action,
-            model: class_basename($produto),
+            model: $produto->getMorphClass(),
             modelId: $modelId,
-            data: empty($data) ? null : $data,
+            data: $payload,
             userId: Auth::id(),
         );
     }
 
-    /**
-     * @param  array<string, mixed>  $attributes
-     * @return array<string, mixed>
-     */
-    private function extractAttributes(Produto $produto, array $attributes): array
+    private function buildLogPayload(Produto $produto, string $action): ?array
     {
         $keys = $this->loggableKeys($produto);
 
+        $current = $this->filterAttributes($produto->getAttributes(), $keys);
+        $original = $this->filterAttributes($produto->getOriginal(), $keys);
+
+        return match ($action) {
+            'create' => empty($current) ? null : ['after' => $current],
+            'update' => $this->buildUpdatePayload($produto, $current, $original),
+            'delete' => empty($original) ? null : ['before' => $original],
+            default => empty($current) ? null : ['after' => $current],
+        };
+    }
+
+    private function buildUpdatePayload(Produto $produto, array $current, array $original): ?array
+    {
+        $changedAttributes = array_intersect_key($produto->getChanges(), $current);
+
+        if ($changedAttributes === []) {
+            return null;
+        }
+
+        $before = [];
+        $after = [];
+        $diff = [];
+
+        foreach (array_keys($changedAttributes) as $key) {
+            $before[$key] = $original[$key] ?? null;
+            $after[$key] = $current[$key] ?? null;
+            $diff[$key] = [
+                'old' => $original[$key] ?? null,
+                'new' => $current[$key] ?? null,
+            ];
+        }
+
+        return [
+            'before' => $before,
+            'after' => $after,
+            'changes' => $diff,
+        ];
+    }
+
+    /**
+     * @param  array<string, mixed>  $attributes
+     * @param  array<int, string>  $keys
+     * @return array<string, mixed>
+     */
+    private function filterAttributes(array $attributes, array $keys): array
+    {
         return array_intersect_key($attributes, array_flip($keys));
     }
 

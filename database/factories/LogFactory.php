@@ -16,7 +16,7 @@ class LogFactory extends Factory
     {
         return [
             'action' => $this->faker->randomElement(['create', 'update', 'delete']),
-            'model' => $this->faker->randomElement(['Produto', 'Pedido']),
+            'model' => $this->faker->randomElement(['App\\Models\\Produto', 'App\\Models\\Pedido']),
             'model_id' => $this->faker->numberBetween(1, 5000),
             'data' => [
                 'before' => $this->faker->words(2, true),

@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Cache;
 
 class ProdutoService
 {
+    private const CACHE_INVALIDATION_REASONS = [
+        'index_unavailable',
+        'index_missing',
+        'no_node_available',
+    ];
+
     public function __construct(
         private readonly ProdutoRepositoryInterface $repository,
         private readonly ProdutoSearchEngine $searchEngine,
@@ -20,6 +26,14 @@ class ProdutoService
 
     public function list(array $filters = [], int $perPage = 15): ProdutoSearchResult
     {
+        if (isset($filters['search']) && is_string($filters['search'])) {
+            $filters['search'] = trim($filters['search']);
+
+            if ($filters['search'] === '') {
+                unset($filters['search']);
+            }
+        }
+
         if (! empty($filters['search'])) {
             $result = $this->searchEngine->search($filters, $perPage);
 
@@ -31,20 +45,24 @@ class ProdutoService
 
             $reason = $this->searchEngine->lastFailureReason() ?? 'unknown';
 
-            $this->searchHealthReporter->recordFailure($reason, [
-                'filters' => array_intersect_key($filters, array_flip([
-                    'search',
-                    'categoria',
-                    'categorias',
-                    'min_preco',
-                    'max_preco',
-                    'disponivel',
-                    'sort',
-                    'order',
-                ])),
-            ]);
+            if ($reason !== 'empty_search') {
+                $this->searchHealthReporter->recordFailure($reason, [
+                    'filters' => array_intersect_key($filters, array_flip([
+                        'search',
+                        'categoria',
+                        'categorias',
+                        'min_preco',
+                        'max_preco',
+                        'disponivel',
+                        'sort',
+                        'order',
+                    ])),
+                ]);
 
-            $this->flushCachedSearchResults();
+                if ($this->shouldFlushCachedSearchResults($reason)) {
+                    $this->flushCachedSearchResults();
+                }
+            }
         }
 
         return ProdutoSearchResult::wrap($this->repository->paginate($filters, $perPage));
@@ -71,10 +89,11 @@ class ProdutoService
 
         if ($store instanceof TaggableStore) {
             Cache::tags(['produtos'])->flush();
-
-            return;
         }
+    }
 
-        Cache::flush();
+    private function shouldFlushCachedSearchResults(string $reason): bool
+    {
+        return in_array($reason, self::CACHE_INVALIDATION_REASONS, true);
     }
 }

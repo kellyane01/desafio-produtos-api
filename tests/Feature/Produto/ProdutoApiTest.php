@@ -24,9 +24,9 @@ class ProdutoApiTest extends TestCase
 
     public function test_requires_authentication_to_access_produtos_routes(): void
     {
-        $this->getJson('/api/produtos')->assertUnauthorized();
-        $this->postJson('/api/produtos', [])->assertUnauthorized();
-        $this->getJson('/api/produtos/1')->assertUnauthorized();
+        $this->getJson('/api/v1/produtos')->assertUnauthorized();
+        $this->postJson('/api/v1/produtos', [])->assertUnauthorized();
+        $this->getJson('/api/v1/produtos/1')->assertUnauthorized();
     }
 
     public function test_index_returns_paginated_products(): void
@@ -35,7 +35,7 @@ class ProdutoApiTest extends TestCase
 
         Produto::factory()->count(3)->create();
 
-        $response = $this->getJson('/api/produtos');
+        $response = $this->getJson('/api/v1/produtos');
 
         $response
             ->assertOk()
@@ -78,7 +78,7 @@ class ProdutoApiTest extends TestCase
             'categoria' => 'Moda',
         ]);
 
-        $response = $this->getJson('/api/produtos?search=Camiseta&categoria=Moda');
+        $response = $this->getJson('/api/v1/produtos?search=Camiseta&categoria=Moda');
 
         $response
             ->assertOk()
@@ -110,7 +110,7 @@ class ProdutoApiTest extends TestCase
             'estoque' => 0,
         ]);
 
-        $response = $this->getJson('/api/produtos?min_preco=100&max_preco=200&disponivel=true');
+        $response = $this->getJson('/api/v1/produtos?min_preco=100&max_preco=200&disponivel=true');
 
         $response
             ->assertOk()
@@ -127,7 +127,7 @@ class ProdutoApiTest extends TestCase
         Produto::factory()->create(['nome' => 'Produto Ouro', 'preco' => 200]);
         Produto::factory()->create(['nome' => 'Produto Prata', 'preco' => 150]);
 
-        $response = $this->getJson('/api/produtos?sort=preco&order=desc');
+        $response = $this->getJson('/api/v1/produtos?sort=preco&order=desc');
 
         $response->assertOk();
 
@@ -149,7 +149,7 @@ class ProdutoApiTest extends TestCase
             'estoque' => 8,
         ];
 
-        $response = $this->postJson('/api/produtos', $payload);
+        $response = $this->postJson('/api/v1/produtos', $payload);
 
         $response
             ->assertCreated()
@@ -168,7 +168,7 @@ class ProdutoApiTest extends TestCase
     {
         $this->authenticate();
 
-        $response = $this->postJson('/api/produtos', [
+        $response = $this->postJson('/api/v1/produtos', [
             'nome' => '',
             'descricao' => '',
             'preco' => -10,
@@ -187,7 +187,7 @@ class ProdutoApiTest extends TestCase
 
         $produto = Produto::factory()->create(['nome' => 'Cafeteira Digital']);
 
-        $response = $this->getJson("/api/produtos/{$produto->id}");
+        $response = $this->getJson("/api/v1/produtos/{$produto->id}");
 
         $response
             ->assertOk()
@@ -209,7 +209,7 @@ class ProdutoApiTest extends TestCase
             'estoque' => 15,
         ];
 
-        $response = $this->patchJson("/api/produtos/{$produto->id}", $payload);
+        $response = $this->patchJson("/api/v1/produtos/{$produto->id}", $payload);
 
         $response
             ->assertOk()
@@ -228,7 +228,7 @@ class ProdutoApiTest extends TestCase
 
         $produto = Produto::factory()->create(['preco' => 199.90]);
 
-        $response = $this->patchJson("/api/produtos/{$produto->id}", [
+        $response = $this->patchJson("/api/v1/produtos/{$produto->id}", [
             'preco' => -50,
         ]);
 
@@ -248,7 +248,7 @@ class ProdutoApiTest extends TestCase
 
         $produto = Produto::withoutEvents(fn () => Produto::factory()->create());
 
-        $response = $this->deleteJson("/api/produtos/{$produto->id}");
+        $response = $this->deleteJson("/api/v1/produtos/{$produto->id}");
 
         $response->assertNoContent();
 

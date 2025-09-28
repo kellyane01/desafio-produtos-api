@@ -3,7 +3,7 @@
 namespace App\Search;
 
 use App\Models\Produto;
-use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\ClientInterface;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Transport\Exception\NoNodeAvailableException;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 class ProdutoSearchEngine
 {
     public function __construct(
-        private readonly Client $client,
+        private readonly ClientInterface $client,
         private readonly ProdutoIndexConfigurator $indexConfigurator,
     ) {}
 

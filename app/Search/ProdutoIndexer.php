@@ -3,7 +3,7 @@
 namespace App\Search;
 
 use App\Models\Produto;
-use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\ClientInterface;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Transport\Exception\NoNodeAvailableException;
 use Illuminate\Database\Eloquent\Collection;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
 class ProdutoIndexer
 {
     public function __construct(
-        private readonly Client $client,
+        private readonly ClientInterface $client,
         private readonly ProdutoIndexConfigurator $configurator,
     ) {}
 

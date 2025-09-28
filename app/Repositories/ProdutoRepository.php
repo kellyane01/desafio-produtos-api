@@ -3,9 +3,11 @@
 namespace App\Repositories;
 
 use App\Models\Produto;
+use Illuminate\Cache\TaggableStore;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class ProdutoRepository implements ProdutoRepositoryInterface
 {
@@ -13,32 +15,45 @@ class ProdutoRepository implements ProdutoRepositoryInterface
     {
         $query = Produto::query();
 
+        $searchTerm = null;
         if (! empty($filters['search'])) {
-            $search = $filters['search'];
+            $candidate = trim((string) $filters['search']);
+            if ($candidate !== '') {
+                $searchTerm = mb_strtolower($candidate);
+                $like = '%'.$searchTerm.'%';
 
-            $query->where(function ($query) use ($search) {
-                $query->where('nome', 'like', "%{$search}%")
-                    ->orWhere('descricao', 'like', "%{$search}%")
-                    ->orWhere('categoria', 'like', "%{$search}%");
-            });
+                $query->where(function ($query) use ($like) {
+                    $query->whereRaw('LOWER(nome) LIKE ?', [$like])
+                        ->orWhereRaw('LOWER(descricao) LIKE ?', [$like])
+                        ->orWhereRaw('LOWER(categoria) LIKE ?', [$like]);
+                });
+            }
         }
 
+        $categoriaFilter = null;
         if (! empty($filters['categoria'])) {
-            $query->where('categoria', $filters['categoria']);
+            $candidate = trim((string) $filters['categoria']);
+            if ($candidate !== '') {
+                $categoriaFilter = mb_strtolower($candidate);
+                $query->whereRaw('LOWER(categoria) = ?', [$categoriaFilter]);
+            }
         }
 
         $normalizedCategories = null;
         if (! empty($filters['categorias'])) {
             $rawCategories = is_array($filters['categorias'])
                 ? $filters['categorias']
-                : explode(',', $filters['categorias']);
+                : explode(',', (string) $filters['categorias']);
 
-            $categoryList = array_values(array_filter(array_map('trim', $rawCategories)));
+            $categoryList = array_values(array_unique(array_filter(array_map(
+                static fn ($value) => mb_strtolower(trim((string) $value)),
+                $rawCategories
+            ))));
 
             if (! empty($categoryList)) {
                 sort($categoryList);
                 $normalizedCategories = $categoryList;
-                $query->whereIn('categoria', $categoryList);
+                $query->whereIn(DB::raw('LOWER(categoria)'), $categoryList);
             }
         }
 
@@ -69,7 +84,7 @@ class ProdutoRepository implements ProdutoRepositoryInterface
             $sortColumn = 'nome';
         }
 
-        $sortDirection = strtolower($filters['order'] ?? 'asc');
+        $sortDirection = strtolower((string) ($filters['order'] ?? 'asc'));
         if (! in_array($sortDirection, ['asc', 'desc'], true)) {
             $sortDirection = 'asc';
         }
@@ -80,11 +95,16 @@ class ProdutoRepository implements ProdutoRepositoryInterface
             ? (int) $filters['page']
             : Paginator::resolveCurrentPage();
 
+        $cacheStore = Cache::getStore();
+        if (! $cacheStore instanceof TaggableStore) {
+            return $query->paginate($perPage, ['*'], 'page', $page);
+        }
+
         $cacheKey = sprintf(
             'produtos:%s',
             md5(json_encode([
-                'search' => $filters['search'] ?? null,
-                'categoria' => $filters['categoria'] ?? null,
+                'search' => $searchTerm,
+                'categoria' => $categoriaFilter,
                 'categorias' => $normalizedCategories,
                 'min_preco' => isset($filters['min_preco']) ? (float) $filters['min_preco'] : null,
                 'max_preco' => isset($filters['max_preco']) ? (float) $filters['max_preco'] : null,
@@ -107,7 +127,7 @@ class ProdutoRepository implements ProdutoRepositoryInterface
     {
         $produto = Produto::create($attributes);
 
-        Cache::tags(['produtos'])->flush();
+        $this->flushCache();
 
         return $produto;
     }
@@ -116,7 +136,7 @@ class ProdutoRepository implements ProdutoRepositoryInterface
     {
         $produto->update($attributes);
 
-        Cache::tags(['produtos'])->flush();
+        $this->flushCache();
 
         return $produto;
     }
@@ -125,6 +145,15 @@ class ProdutoRepository implements ProdutoRepositoryInterface
     {
         $produto->delete();
 
-        Cache::tags(['produtos'])->flush();
+        $this->flushCache();
+    }
+
+    private function flushCache(): void
+    {
+        $store = Cache::getStore();
+
+        if ($store instanceof TaggableStore) {
+            Cache::tags(['produtos'])->flush();
+        }
     }
 }

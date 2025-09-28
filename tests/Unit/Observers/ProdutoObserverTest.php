@@ -3,6 +3,7 @@
 namespace Tests\Unit\Observers;
 
 use App\Jobs\LogModelActivity;
+use App\Jobs\SyncProdutoSearchDocument;
 use App\Models\Produto;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -35,16 +36,27 @@ class ProdutoObserverTest extends TestCase
         ]);
 
         Bus::assertDispatchedTimes(LogModelActivity::class, 1);
+        Bus::assertDispatchedTimes(SyncProdutoSearchDocument::class, 1);
 
         Bus::assertDispatched(LogModelActivity::class, function (LogModelActivity $job) use ($produto, $user) {
             $payload = $this->extractPayload($job);
 
             $this->assertSame('create', $payload['action']);
-            $this->assertSame('Produto', $payload['model']);
+            $this->assertSame(Produto::class, $payload['model']);
             $this->assertSame($produto->getKey(), $payload['modelId']);
             $this->assertSame($user->getKey(), $payload['userId']);
-            $this->assertEquals($produto->nome, $payload['data']['nome']);
-            $this->assertEquals($produto->descricao, $payload['data']['descricao']);
+            $this->assertEquals($produto->nome, $payload['data']['after']['nome']);
+            $this->assertEquals($produto->descricao, $payload['data']['after']['descricao']);
+
+            return true;
+        });
+
+        Bus::assertDispatched(SyncProdutoSearchDocument::class, function (SyncProdutoSearchDocument $job) use ($produto) {
+            $payload = $this->extractSyncPayload($job);
+
+            $this->assertSame($produto->getKey(), $payload['produtoId']);
+            $this->assertSame(SyncProdutoSearchDocument::OPERATION_UPSERT, $payload['operation']);
+            $this->assertSame('search-sync', $payload['queue']);
 
             return true;
         });
@@ -70,6 +82,7 @@ class ProdutoObserverTest extends TestCase
         ]);
 
         Bus::assertDispatchedTimes(LogModelActivity::class, 1);
+        Bus::assertDispatchedTimes(SyncProdutoSearchDocument::class, 1);
 
         Bus::assertDispatched(LogModelActivity::class, function (LogModelActivity $job) use ($produto, $user) {
             $payload = $this->extractPayload($job);
@@ -77,8 +90,23 @@ class ProdutoObserverTest extends TestCase
             $this->assertSame('update', $payload['action']);
             $this->assertSame($produto->getKey(), $payload['modelId']);
             $this->assertSame($user->getKey(), $payload['userId']);
-            $this->assertEquals('Teclado Mecanico', $payload['data']['nome']);
-            $this->assertEquals(10, (int) $payload['data']['estoque']);
+            $data = $payload['data'];
+            $this->assertSame('Teclado Compacto', $data['before']['nome']);
+            $this->assertSame('Teclado Mecanico', $data['after']['nome']);
+            $this->assertSame(4, (int) $data['before']['estoque']);
+            $this->assertSame(10, (int) $data['after']['estoque']);
+            $this->assertSame(['old' => 'Teclado Compacto', 'new' => 'Teclado Mecanico'], $data['changes']['nome']);
+            $this->assertSame(4, (int) $data['changes']['estoque']['old']);
+            $this->assertSame(10, (int) $data['changes']['estoque']['new']);
+
+            return true;
+        });
+
+        Bus::assertDispatched(SyncProdutoSearchDocument::class, function (SyncProdutoSearchDocument $job) use ($produto) {
+            $payload = $this->extractSyncPayload($job);
+
+            $this->assertSame($produto->getKey(), $payload['produtoId']);
+            $this->assertSame(SyncProdutoSearchDocument::OPERATION_UPSERT, $payload['operation']);
 
             return true;
         });
@@ -101,6 +129,7 @@ class ProdutoObserverTest extends TestCase
         $produto->delete();
 
         Bus::assertDispatchedTimes(LogModelActivity::class, 1);
+        Bus::assertDispatchedTimes(SyncProdutoSearchDocument::class, 1);
 
         Bus::assertDispatched(LogModelActivity::class, function (LogModelActivity $job) use ($produto, $user) {
             $payload = $this->extractPayload($job);
@@ -108,8 +137,20 @@ class ProdutoObserverTest extends TestCase
             $this->assertSame('delete', $payload['action']);
             $this->assertSame($produto->getKey(), $payload['modelId']);
             $this->assertSame($user->getKey(), $payload['userId']);
-            $this->assertEquals('Mouse Gamer', $payload['data']['nome']);
-            $this->assertEquals(7, (int) $payload['data']['estoque']);
+            $data = $payload['data'];
+            $this->assertSame('Mouse Gamer', $data['before']['nome']);
+            $this->assertSame(7, (int) $data['before']['estoque']);
+            $this->assertArrayNotHasKey('after', $data);
+            $this->assertArrayNotHasKey('changes', $data);
+
+            return true;
+        });
+
+        Bus::assertDispatched(SyncProdutoSearchDocument::class, function (SyncProdutoSearchDocument $job) use ($produto) {
+            $payload = $this->extractSyncPayload($job);
+
+            $this->assertSame($produto->getKey(), $payload['produtoId']);
+            $this->assertSame(SyncProdutoSearchDocument::OPERATION_DELETE, $payload['operation']);
 
             return true;
         });
@@ -133,6 +174,25 @@ class ProdutoObserverTest extends TestCase
         };
 
         /** @var array{action: string, model: string, modelId: int, data: ?array, userId: ?int} $payload */
+        $payload = $closure->call($job);
+
+        return $payload;
+    }
+
+    /**
+     * @return array{produtoId: int, operation: string, queue: ?string}
+     */
+    private function extractSyncPayload(SyncProdutoSearchDocument $job): array
+    {
+        $closure = function () {
+            return [
+                'produtoId' => $this->produtoId,
+                'operation' => $this->operation,
+                'queue' => $this->queue,
+            ];
+        };
+
+        /** @var array{produtoId: int, operation: string, queue: ?string} $payload */
         $payload = $closure->call($job);
 
         return $payload;

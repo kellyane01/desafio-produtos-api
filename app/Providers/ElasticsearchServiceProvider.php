@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\ClientInterface;
 use Elastic\Elasticsearch\ClientBuilder;
 use Illuminate\Support\ServiceProvider;
 
@@ -10,7 +11,7 @@ class ElasticsearchServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton(Client::class, function () {
+        $this->app->singleton(ClientInterface::class, function () {
             $config = config('elasticsearch');
 
             $builder = ClientBuilder::create()
@@ -23,5 +24,7 @@ class ElasticsearchServiceProvider extends ServiceProvider
 
             return $builder->build();
         });
+
+        $this->app->alias(ClientInterface::class, Client::class);
     }
 }

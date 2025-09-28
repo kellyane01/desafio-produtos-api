@@ -22,7 +22,9 @@ class LogModelActivity implements ShouldQueue
         private readonly int $modelId,
         private readonly ?array $data = null,
         private readonly ?int $userId = null,
-    ) {}
+    ) {
+        $this->afterCommit = true;
+    }
 
     public function handle(): void
     {
