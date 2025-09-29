@@ -72,7 +72,8 @@ API RESTful para gerenciamento de produtos construída em Laravel 10. Inclui aut
 - [ ] (Linux) `sudo sysctl -w vm.max_map_count=262144` antes do Elasticsearch
 - [ ] API respondendo em http://localhost:8000
 
-> Aguarde ate que os scripts sejam finalizados, acompanhe o processo nos logs do container ´laravel_app´
+> Aguarde ate que os scripts sejam finalizados, acompanhe o processo nos logs do container *laravel_app*
+
 > Quer ver os logs da fila? `docker-compose logs -f horizon`
 
 ---
