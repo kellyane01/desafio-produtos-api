@@ -27,31 +27,56 @@
                 </div>
                 @if($required)
                     <div class="sl-flex-1 sl-h-px sl-mx-3"></div>
-                    <span class="sl-ml-2 sl-text-warning">required</span>
+                    <span class="sl-ml-2 sl-text-warning">obrigatório</span>
                 @endif
             @endunless
         </div>
         @if($description)
+        @php
+            $description = str_replace(
+                [
+                    'Must be a valid email address.',
+                    'Must be at least 0.',
+                    'Must be at least 1.',
+                    'Must not be greater than 100.',
+                    'Must not be greater than 255 characters.',
+                    'Must be a valid date.',
+                    'Must be a date after or equal to <code>from</code>.',
+                    'Must be a date after or equal to &lt;code&gt;from&lt;/code&gt;.',
+                ],
+                [
+                    'Deve ser um endereço de e-mail válido.',
+                    'Deve ser no mínimo 0.',
+                    'Deve ser no mínimo 1.',
+                    'Não deve ser maior que 100.',
+                    'Não deve ultrapassar 255 caracteres.',
+                    'Deve ser uma data válida.',
+                    'Deve ser uma data igual ou posterior a <code>from</code>.',
+                    'Deve ser uma data igual ou posterior a &lt;code&gt;from&lt;/code&gt;.',
+                ],
+                $description
+            );
+        @endphp
         <div class="sl-prose sl-markdown-viewer" style="font-size: 12px;">
             {!! Parsedown::instance()->text($description) !!}
         </div>
         @endif
         @if(!empty($enumValues))
-            Must be one of:
+            Deve ser um dos valores:
             <ul style="list-style-position: inside; list-style-type: square;">{!! implode(" ", array_map(fn($val) => "<li><code>$val</code></li>", $enumValues)) !!}</ul>
         @endif
         @if($isArrayBody)
             <div class="sl-flex sl-items-baseline sl-text-base">
-                <div class="sl-font-mono sl-font-semibold sl-mr-2">array of:</div>
+                <div class="sl-font-mono sl-font-semibold sl-mr-2">array de:</div>
                 @if($required)
                     <div class="sl-flex-1 sl-h-px sl-mx-3"></div>
-                    <span class="sl-ml-2 sl-text-warning">required</span>
+                    <span class="sl-ml-2 sl-text-warning">obrigatório</span>
                 @endif
             </div>
         @endif
         @if(!$hasChildren && !is_null($example) && $example !== '')
             <div class="sl-stack sl-stack--horizontal sl-stack--2 sl-flex sl-flex-row sl-items-baseline sl-text-muted">
-                <span>Example:</span> <!-- <span> important for spacing -->
+                <span>Exemplo:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
                         {{ is_array($example) || is_bool($example) ? json_encode($example) : $example }}

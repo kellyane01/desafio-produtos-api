@@ -11,17 +11,27 @@ use function Knuckles\Scribe\Config\removeStrategies;
 
 return [
     // The HTML <title> for the generated documentation.
-    'title' => config('app.name').' API Documentation',
+    'title' => 'Documentação da API '.config('app.name'),
 
     // A short description of your API. Will be included in the docs webpage, Postman collection and OpenAPI spec.
-    'description' => 'API REST para autenticação com Sanctum, gestão de produtos e registro de logs de auditoria.',
+    'description' => 'Documentação oficial da API REST responsável por autenticação, gestão de produtos e rastreamento de auditoria.',
 
     // Text to place in the "Introduction" section, right after the `description`. Markdown and HTML are supported.
-    'intro_text' => <<<'INTRO'
-        Utilize esta documentação para entender os fluxos de autenticação e a gestão dos recursos de produtos e logs.
-
-        <aside>As chamadas da API exigem um token Bearer obtido após o login. Os exemplos de requisição abaixo podem ser executados diretamente pelo navegador através do botão "Try it out".</aside>
-    INTRO,
+    'intro_text' => implode(PHP_EOL, [
+        '<p><strong>Documentação interativa</strong> com suporte a exemplos executáveis via <em>Testar requisição</em>.</p>',
+        '<h3>Fluxos principais</h3>',
+        '<ul>',
+        '    <li><strong>Autenticação</strong>: gere tokens seguros utilizando o endpoint de login.</li>',
+        '    <li><strong>Produtos</strong>: cadastre, liste e mantenha o catálogo com filtros avançados.</li>',
+        '    <li><strong>Logs de auditoria</strong>: acompanhe as alterações realizadas nos modelos monitorados.</li>',
+        '</ul>',
+        '<h3>Boas práticas</h3>',
+        '<ol>',
+        '    <li>Envie sempre o cabeçalho <code>Accept: application/json</code>.</li>',
+        '    <li>Utilize um token obtido em <code>POST /api/v1/auth/login</code> no cabeçalho <code>Authorization</code>.</li>',
+        '    <li>Aplique filtros e paginação para otimizar as consultas.</li>',
+        '</ol>',
+    ]),
 
     // The base URL displayed in the docs.
     // If you're using `laravel` type, you can set this to a dynamic string, like '{{ config("app.tenant_url") }}' to get a dynamic base URL.
@@ -57,7 +67,7 @@ return [
     'type' => 'laravel',
 
     // See https://scribe.knuckles.wtf/laravel/reference/config#theme for supported options
-    'theme' => 'default',
+    'theme' => 'elements',
 
     'static' => [
         // HTML documentation, assets and Postman collection will be generated to this folder.
@@ -76,7 +86,7 @@ return [
         // Directory within `public` in which to store CSS and JS assets.
         // By default, assets are stored in `public/vendor/scribe`.
         // If set, assets will be stored in `public/{{assets_directory}}`
-        'assets_directory' => null,
+        'assets_directory' => 'docs-assets',
 
         // Middleware to attach to the docs endpoint (if `add_routes` is true).
         'middleware' => [],
@@ -125,7 +135,10 @@ return [
         'placeholder' => '{ACCESS_TOKEN}',
 
         // Any extra authentication-related info for your users. Markdown and HTML are supported.
-        'extra_info' => 'Envie o token no cabeçalho Authorization no formato <code>Bearer {token}</code>.',
+        'extra_info' => implode(PHP_EOL, [
+            '<p>Sempre inclua <code>Authorization: Bearer {token}</code> e substitua <code>{token}</code> pelo valor recebido após o login.</p>',
+            '<p>Tokens podem ser revogados a qualquer momento via <code>POST /api/v1/auth/logout</code>.</p>',
+        ]),
     ],
 
     // Example requests for each endpoint will be shown in each of these languages.
@@ -148,6 +161,7 @@ return [
         'overrides' => [
             'info' => [
                 'name' => config('app.name').' API',
+                'description' => 'Coleção Postman gerada automaticamente via Scribe.',
             ],
         ],
     ],
@@ -162,6 +176,7 @@ return [
         'overrides' => [
             'info' => [
                 'title' => config('app.name').' API',
+                'description' => 'Especificação OpenAPI mantida em sincronia com as rotas Laravel.',
             ],
         ],
 
@@ -172,13 +187,13 @@ return [
 
     'groups' => [
         // Endpoints which don't have a @group will be placed in this default group.
-        'default' => 'Endpoints',
+        'default' => 'Visão Geral',
 
         // By default, Scribe will sort groups alphabetically, and endpoints in the order their routes are defined.
         // You can override this by listing the groups, subgroups and endpoints here in the order you want them.
         // See https://scribe.knuckles.wtf/blog/laravel-v4#easier-sorting and https://scribe.knuckles.wtf/laravel/reference/config#order for details
         // Note: does not work for `external` docs types
-        'order' => [],
+        'order' => ['Autenticação', 'Produtos', 'Logs'],
     ],
 
     // Custom logo path. This will be used as the value of the src attribute for the <img> tag,
@@ -196,7 +211,7 @@ return [
     // The format you pass to `date` will be passed to PHP's `date()` function.
     // The format you pass to `git` can be either "short" or "long".
     // Note: does not work for `external` docs types
-    'last_updated' => 'Last updated: {date:F j, Y}',
+    'last_updated' => 'Documentação atualizada em {date:d/m/Y}',
 
     'examples' => [
         // Set this to any number to generate the same example values for parameters on each run,
@@ -231,10 +246,9 @@ return [
         'bodyParameters' => [
             ...Defaults::BODY_PARAMETERS_STRATEGIES,
         ],
-        'responses' => removeStrategies(
-            Defaults::RESPONSES_STRATEGIES,
-            [Strategies\Responses\ResponseCalls::class],
-        ),
+        'responses' => [
+            ...Defaults::RESPONSES_STRATEGIES,
+        ],
         'responseFields' => [
             ...Defaults::RESPONSE_FIELDS_STRATEGIES,
         ],

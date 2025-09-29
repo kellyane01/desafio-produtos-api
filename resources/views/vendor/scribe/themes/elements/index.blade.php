@@ -3,7 +3,7 @@
 @endphp
 
         <!doctype html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
@@ -64,6 +64,34 @@
         </style>
 
         <script>
+            const shouldIncludeOptionalValue = (inputElement, rawValue) => {
+                if (inputElement.dataset.optional !== '1') {
+                    return true;
+                }
+
+                if (rawValue === undefined || rawValue === null) {
+                    return false;
+                }
+
+                if (typeof rawValue === 'string') {
+                    return rawValue.trim() !== '';
+                }
+
+                if (Array.isArray(rawValue)) {
+                    return rawValue.length > 0;
+                }
+
+                if (rawValue instanceof File) {
+                    return true;
+                }
+
+                if (typeof rawValue === 'object') {
+                    return Object.keys(rawValue).length > 0;
+                }
+
+                return true;
+            };
+
             function tryItOut(btnElement) {
                 btnElement.disabled = true;
 
@@ -84,11 +112,19 @@
                     form.querySelectorAll('input[data-component=body]')
                         .forEach(el => {
                             if (el.type === 'file') {
-                                if (el.files[0]) body.append(el.name, el.files[0])
-                            } else body.append(el.name, el.value);
+                                if (el.files[0] && shouldIncludeOptionalValue(el, el.files[0])) {
+                                    body.append(el.name, el.files[0]);
+                                }
+                            } else if (shouldIncludeOptionalValue(el, el.value)) {
+                                body.append(el.name, el.value);
+                            }
                         });
                 } else {
                     form.querySelectorAll('input[data-component=body]').forEach(el => {
+                        if (! shouldIncludeOptionalValue(el, el.value)) {
+                            return;
+                        }
+
                         _.set(body, el.name, el.value);
                     });
                 }
@@ -101,6 +137,10 @@
 
                 const query = {}
                 form.querySelectorAll('input[data-component=query]').forEach(el => {
+                    if (! shouldIncludeOptionalValue(el, el.value)) {
+                        return;
+                    }
+
                     _.set(query, el.name, el.value);
                 });
 

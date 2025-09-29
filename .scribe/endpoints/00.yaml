@@ -1,4 +1,4 @@
-name: Autenticação
+name: 'Visão Geral'
 description: ''
 endpoints:
   -
@@ -6,16 +6,17 @@ endpoints:
       - POST
     uri: api/v1/auth/login
     metadata:
-      groupName: Autenticação
+      groupName: 'Visão Geral'
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Realiza o login e gera um token de acesso para futuras requisições autenticadas.'
+      title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
       custom: []
     headers:
+      Authorization: 'Bearer {ACCESS_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -50,18 +51,21 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"token_type":"Bearer","access_token":"1|pC6m2GdEXEMPLO"}'
-        headers: []
-        description: ''
-        custom: []
-      -
-        status: 422
-        content: '{"message":"The given data was invalid.","errors":{"email":["Estas credenciais não conferem."]}}'
-        headers: []
-        description: ''
+        content: '{"token_type":"Bearer","access_token":"1|e70PKfNmjeiq4CtAFbDhzGQTJBaLdZA2POIs447ta2e834df"}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '60'
+          x-ratelimit-remaining: '59'
+          access-control-allow-origin: 'http://localhost:3000'
+          access-control-allow-credentials: 'true'
+        description: null
         custom: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 3V5EgbkvZcDPa166h8fd4ae'
     controller: null
     method: null
     route: null
@@ -71,11 +75,11 @@ endpoints:
       - GET
     uri: api/v1/auth/me
     metadata:
-      groupName: Autenticação
+      groupName: 'Visão Geral'
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Retorna os dados do usuário autenticado.'
+      title: ''
       description: ''
       authenticated: true
       deprecated: false
@@ -93,66 +97,20 @@ endpoints:
     fileParameters: []
     responses:
       -
-        status: 200
-        content: '{"id":1,"name":"Administrador","email":"admin@example.com","created_at":"2024-01-10T14:32:11Z","updated_at":"2024-05-18T09:21:44Z"}'
-        headers: []
-        description: ''
+        status: 401
+        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:14:47+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: 'http://localhost:3000'
+          access-control-allow-credentials: 'true'
+        description: null
         custom: []
-    responseFields:
-      id:
-        name: id
-        description: 'Identificador do usuário autenticado.'
-        required: false
-        example: null
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-      name:
-        name: name
-        description: 'Nome do usuário.'
-        required: false
-        example: null
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-      email:
-        name: email
-        description: 'Endereço de e-mail.'
-        required: false
-        example: null
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-      created_at:
-        name: created_at
-        description: 'Data de criação do cadastro em formato ISO 8601.'
-        required: false
-        example: null
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-      updated_at:
-        name: updated_at
-        description: 'Data da última atualização em formato ISO 8601.'
-        required: false
-        example: null
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
+    responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+      - 'Bearer 3V5EgbkvZcDPa166h8fd4ae'
     controller: null
     method: null
     route: null
@@ -162,11 +120,11 @@ endpoints:
       - POST
     uri: api/v1/auth/logout
     metadata:
-      groupName: Autenticação
+      groupName: 'Visão Geral'
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Revoga o token de acesso atualmente em uso.'
+      title: ''
       description: ''
       authenticated: true
       deprecated: false
@@ -184,16 +142,706 @@ endpoints:
     fileParameters: []
     responses:
       -
-        status: 204
-        content: '{}'
-        headers: []
-        description: ''
+        status: 401
+        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:14:47+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: 'http://localhost:3000'
+          access-control-allow-credentials: 'true'
+        description: null
         custom: []
     responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+      - 'Bearer 3V5EgbkvZcDPa166h8fd4ae'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/v1/produtos
+    metadata:
+      groupName: 'Visão Geral'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: true
+      deprecated: false
+      custom: []
+    headers:
+      Authorization: 'Bearer {ACCESS_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      search:
+        name: search
+        description: 'Busca textual por nome, descrição ou categoria.'
+        required: false
+        example: smartphone
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+      categoria:
+        name: categoria
+        description: 'Filtra por uma categoria específica. Must not be greater than 255 characters.'
+        required: false
+        example: Eletrônicos
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+      categorias:
+        name: categorias
+        description: 'Must not be greater than 255 characters.'
+        required: false
+        example:
+          - vmqeopfuudtdsufvyvddq
+        type: 'string[]'
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      min_preco:
+        name: min_preco
+        description: 'Limite mínimo de preço dos produtos retornados. Must be at least 0.'
+        required: false
+        example: 100.9
+        type: number
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+      max_preco:
+        name: max_preco
+        description: 'Limite máximo de preço dos produtos retornados. Must be at least 0.'
+        required: false
+        example: 999.9
+        type: number
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+      disponivel:
+        name: disponivel
+        description: 'Define se apenas produtos com estoque (>0) ou esgotados (<=0) devem ser retornados.'
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+      sort:
+        name: sort
+        description: 'Campo utilizado na ordenação (nome, preco, categoria, estoque, created_at).'
+        required: false
+        example: preco
+        type: string
+        enumValues:
+          - nome
+          - preco
+          - categoria
+          - estoque
+          - created_at
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+      order:
+        name: order
+        description: 'Direção da ordenação (asc ou desc).'
+        required: false
+        example: desc
+        type: string
+        enumValues:
+          - asc
+          - desc
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+      page:
+        name: page
+        description: 'Número da página a ser retornada. Must be at least 1.'
+        required: false
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+      per_page:
+        name: per_page
+        description: 'Quantidade de registros por página (1-100). Must be at least 1. Must not be greater than 100.'
+        required: false
+        example: 25
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+    cleanQueryParameters:
+      search: smartphone
+      categoria: Eletrônicos
+      categorias:
+        - vmqeopfuudtdsufvyvddq
+      min_preco: 100.9
+      max_preco: 999.9
+      disponivel: false
+      sort: preco
+      order: desc
+      page: 1
+      per_page: 25
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+            "data": [
+              {
+                "id": 15,
+                "nome": "Smartphone X",
+                "preco": 3499.9,
+                "estoque": 12
+              }
+            ],
+            "links": {
+              "first": "http://localhost/api/v1/produtos?page=1",
+              "last": "http://localhost/api/v1/produtos?page=5",
+              "prev": null,
+              "next": "http://localhost/api/v1/produtos?page=2"
+            },
+            "meta": {
+              "current_page": 1,
+              "from": 1,
+              "last_page": 5,
+              "path": "http://localhost/api/v1/produtos",
+              "per_page": 15,
+              "to": 15,
+              "total": 75
+            }
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 401
+        content: '{"message":"Não autenticado."}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 422
+        content: |-
+          {
+            "message": "Os dados fornecidos são inválidos.",
+            "errors": {
+              "per_page": [
+                "The per page field must not be greater than 100."
+              ]
+            }
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields:
+      'data[].id':
+        name: 'data[].id'
+        description: 'Identificador do produto.'
+        type: integer
+        required: false
+        example: null
+        enumValues: []
+        custom: []
+      'data[].nome':
+        name: 'data[].nome'
+        description: 'Nome do produto.'
+        type: string
+        required: false
+        example: null
+        enumValues: []
+        custom: []
+      'data[].preco':
+        name: 'data[].preco'
+        description: 'Preço unitário do produto.'
+        type: number
+        required: false
+        example: null
+        enumValues: []
+        custom: []
+      'data[].estoque':
+        name: 'data[].estoque'
+        description: 'Quantidade disponível em estoque.'
+        type: integer
+        required: false
+        example: null
+        enumValues: []
+        custom: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 3V5EgbkvZcDPa166h8fd4ae'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/produtos
+    metadata:
+      groupName: 'Visão Geral'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: true
+      deprecated: false
+      custom: []
+    headers:
+      Authorization: 'Bearer {ACCESS_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      nome:
+        name: nome
+        description: 'Nome do produto. Must not be greater than 255 characters.'
+        required: true
+        example: 'Caixa de Som Bluetooth'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      descricao:
+        name: descricao
+        description: 'Descrição detalhada do produto.'
+        required: true
+        example: 'Caixa portátil com bateria de 12h e proteção IP67.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      preco:
+        name: preco
+        description: 'Preço unitário do produto. Must be at least 0.'
+        required: true
+        example: 299.9
+        type: number
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      categoria:
+        name: categoria
+        description: 'Categoria em que o produto se enquadra. Must not be greater than 255 characters.'
+        required: true
+        example: Áudio
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      estoque:
+        name: estoque
+        description: 'Quantidade disponível em estoque. Must be at least 0.'
+        required: true
+        example: 20
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      nome: 'Caixa de Som Bluetooth'
+      descricao: 'Caixa portátil com bateria de 12h e proteção IP67.'
+      preco: 299.9
+      categoria: Áudio
+      estoque: 20
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:14:47+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: 'http://localhost:3000'
+          access-control-allow-credentials: 'true'
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 3V5EgbkvZcDPa166h8fd4ae'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/v1/produtos/{id}'
+    metadata:
+      groupName: 'Visão Geral'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: true
+      deprecated: false
+      custom: []
+    headers:
+      Authorization: 'Bearer {ACCESS_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the produto.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:14:47+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: 'http://localhost:3000'
+          access-control-allow-credentials: 'true'
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 3V5EgbkvZcDPa166h8fd4ae'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+      - PATCH
+    uri: 'api/v1/produtos/{id}'
+    metadata:
+      groupName: 'Visão Geral'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: true
+      deprecated: false
+      custom: []
+    headers:
+      Authorization: 'Bearer {ACCESS_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the produto.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      nome:
+        name: nome
+        description: 'Nome do produto. Informe apenas ao atualizar este campo. Must not be greater than 255 characters.'
+        required: true
+        example: 'Caixa de Som Bluetooth Pro'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      descricao:
+        name: descricao
+        description: 'Descrição detalhada do produto.'
+        required: true
+        example: 'Versão com cancelamento de ruído ativo.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      preco:
+        name: preco
+        description: 'Preço unitário do produto. Must be at least 0.'
+        required: true
+        example: 349.9
+        type: number
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      categoria:
+        name: categoria
+        description: 'Categoria em que o produto está cadastrado. Must not be greater than 255 characters.'
+        required: true
+        example: Áudio
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      estoque:
+        name: estoque
+        description: 'Quantidade disponível em estoque. Must be at least 0.'
+        required: true
+        example: 18
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      nome: 'Caixa de Som Bluetooth Pro'
+      descricao: 'Versão com cancelamento de ruído ativo.'
+      preco: 349.9
+      categoria: Áudio
+      estoque: 18
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:14:47+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: 'http://localhost:3000'
+          access-control-allow-credentials: 'true'
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 3V5EgbkvZcDPa166h8fd4ae'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'api/v1/produtos/{id}'
+    metadata:
+      groupName: 'Visão Geral'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: true
+      deprecated: false
+      custom: []
+    headers:
+      Authorization: 'Bearer {ACCESS_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the produto.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:14:47+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: 'http://localhost:3000'
+          access-control-allow-credentials: 'true'
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 3V5EgbkvZcDPa166h8fd4ae'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/v1/logs
+    metadata:
+      groupName: 'Visão Geral'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: true
+      deprecated: false
+      custom: []
+    headers:
+      Authorization: 'Bearer {ACCESS_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      model:
+        name: model
+        description: 'Nome completo (FQCN) do modelo monitorado. Must not be greater than 255 characters.'
+        required: false
+        example: App\Models\Produto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+      model_id:
+        name: model_id
+        description: 'Filtra pelos registros relacionados ao identificador informado. Must be at least 1.'
+        required: false
+        example: 21
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+      action:
+        name: action
+        description: 'Tipo de ação executada (create, update ou delete).'
+        required: false
+        example: update
+        type: string
+        enumValues:
+          - create
+          - update
+          - delete
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+      user_id:
+        name: user_id
+        description: 'Identificador do usuário responsável pela ação. Must be at least 1.'
+        required: false
+        example: 5
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+      from:
+        name: from
+        description: 'Considerar registros a partir desta data (YYYY-MM-DD). Must be a valid date.'
+        required: false
+        example: '2024-07-01'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+      to:
+        name: to
+        description: 'Considerar registros até esta data (YYYY-MM-DD). Must be a valid date. Must be a date after or equal to <code>from</code>.'
+        required: false
+        example: '2024-07-15'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+      per_page:
+        name: per_page
+        description: 'Quantidade de registros por página (1-100). Must be at least 1. Must not be greater than 100.'
+        required: false
+        example: 20
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+    cleanQueryParameters:
+      model: App\Models\Produto
+      model_id: 21
+      action: update
+      user_id: 5
+      from: '2024-07-01'
+      to: '2024-07-15'
+      per_page: 20
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:14:47+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: 'http://localhost:3000'
+          access-control-allow-credentials: 'true'
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 3V5EgbkvZcDPa166h8fd4ae'
     controller: null
     method: null
     route: null

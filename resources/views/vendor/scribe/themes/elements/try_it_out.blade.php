@@ -1,6 +1,80 @@
 @php
     use Knuckles\Scribe\Tools\Utils as u;
     /** @var \Knuckles\Camel\Output\OutputEndpointData $endpoint */
+    $ruleTranslations = [
+        'Must be a valid email address.' => 'Deve ser um endereço de e-mail válido.',
+        'Must be at least 0.' => 'Deve ser no mínimo 0.',
+        'Must be at least 1.' => 'Deve ser no mínimo 1.',
+        'Must not be greater than 100.' => 'Não deve ser maior que 100.',
+        'Must not be greater than 255 characters.' => 'Não deve ultrapassar 255 caracteres.',
+        'Must be a valid date.' => 'Deve ser uma data válida.',
+        'Must be a date after or equal to <code>from</code>.' => 'Deve ser uma data igual ou posterior a <code>from</code>.',
+        'Must be a date after or equal to &lt;code&gt;from&lt;/code&gt;.' => 'Deve ser uma data igual ou posterior a &lt;code&gt;from&lt;/code&gt;.',
+    ];
+    $translateDescription = static fn (string $text): string => str_replace(array_keys($ruleTranslations), array_values($ruleTranslations), $text);
+
+    $buildRequiredSampleBody = static function (array $nestedParameters) use (&$buildRequiredSampleBody) {
+        if (isset($nestedParameters['[]'])) {
+            $childResult = $buildRequiredSampleBody($nestedParameters['[]']['__fields'] ?? []);
+
+            if (! $childResult['has_required']) {
+                return ['value' => [], 'has_required' => false];
+            }
+
+            return ['value' => [$childResult['value']], 'has_required' => true];
+        }
+
+        $value = [];
+        $hasRequired = false;
+
+        foreach ($nestedParameters as $param) {
+            $param = (array) $param;
+            $paramName = $param['name'] ?? null;
+            if ($paramName === null) {
+                continue;
+            }
+
+            $isRequired = (bool) ($param['required'] ?? false);
+            $children = $param['__fields'] ?? [];
+            $hasChildren = ! empty($children);
+
+            if ($hasChildren) {
+                $childResult = $buildRequiredSampleBody($children);
+                $childHasRequired = $childResult['has_required'];
+                $shouldInclude = $isRequired || $childHasRequired;
+
+                if (! $shouldInclude) {
+                    continue;
+                }
+
+                $childValue = $childResult['value'];
+                if ($param['type'] ?? '' === 'object[]') {
+                    $childValue = [$childValue];
+                }
+
+                if ($childValue === [] && ! $isRequired) {
+                    continue;
+                }
+
+                if ($childValue === [] && $isRequired) {
+                    $childValue = (object) [];
+                }
+
+                $value[$paramName] = $childValue;
+                $hasRequired = true;
+                continue;
+            }
+
+            if (! $isRequired) {
+                continue;
+            }
+
+            $value[$paramName] = $param['example'] ?? null;
+            $hasRequired = true;
+        }
+
+        return ['value' => $value, 'has_required' => $hasRequired];
+    };
 @endphp
 
 <div class="sl-inverted">
@@ -24,7 +98,7 @@
                                           d="M310.6 246.6l-127.1 128C176.4 380.9 168.2 384 160 384s-16.38-3.125-22.63-9.375l-127.1-128C.2244 237.5-2.516 223.7 2.438 211.8S19.07 192 32 192h255.1c12.94 0 24.62 7.781 29.58 19.75S319.8 237.5 310.6 246.6z"></path>
                                 </svg>
                             </div>
-                            Auth
+                            Autenticação
                         </div>
                     </div>
                     <div class="sl-panel__content-wrapper sl-bg-canvas-100 children" role="region">
@@ -63,7 +137,7 @@
                                           d="M310.6 246.6l-127.1 128C176.4 380.9 168.2 384 160 384s-16.38-3.125-22.63-9.375l-127.1-128C.2244 237.5-2.516 223.7 2.438 211.8S19.07 192 32 192h255.1c12.94 0 24.62 7.781 29.58 19.75S319.8 237.5 310.6 246.6z"></path>
                                 </svg>
                             </div>
-                            Headers
+                            Cabeçalhos
                         </div>
                     </div>
                     <div class="sl-panel__content-wrapper sl-bg-canvas-100 children" role="region">
@@ -103,7 +177,7 @@
                                           d="M310.6 246.6l-127.1 128C176.4 380.9 168.2 384 160 384s-16.38-3.125-22.63-9.375l-127.1-128C.2244 237.5-2.516 223.7 2.438 211.8S19.07 192 32 192h255.1c12.94 0 24.62 7.781 29.58 19.75S319.8 237.5 310.6 246.6z"></path>
                                 </svg>
                             </div>
-                            URL Parameters
+                            Parâmetros de URL
                         </div>
                     </div>
                     <div class="sl-panel__content-wrapper sl-bg-canvas-100 children" role="region">
@@ -116,7 +190,7 @@
                                     <div class="sl-input sl-flex-1 sl-relative">
                                         <input aria-label="{{ $name }}" name="{{ $name }}"
                                                id="urlparam-{{ $endpoint->endpointId() }}-{{ $name }}"
-                                               placeholder="{{ $parameter->description }}"
+                                               placeholder="{{ $translateDescription($parameter->description) }}"
                                                value="{{ $parameter->example }}" data-component="url"
                                                class="sl-relative sl-w-full sl-h-md sl-text-base sl-pr-2.5 sl-pl-2.5 sl-rounded sl-border-transparent hover:sl-border-input focus:sl-border-primary sl-border">
                                     </div>
@@ -141,7 +215,7 @@
                                           d="M310.6 246.6l-127.1 128C176.4 380.9 168.2 384 160 384s-16.38-3.125-22.63-9.375l-127.1-128C.2244 237.5-2.516 223.7 2.438 211.8S19.07 192 32 192h255.1c12.94 0 24.62 7.781 29.58 19.75S319.8 237.5 310.6 246.6z"></path>
                                 </svg>
                             </div>
-                            Query Parameters
+                            Parâmetros de query
                         </div>
                     </div>
                     <div class="sl-panel__content-wrapper sl-bg-canvas-100 children" role="region">
@@ -162,21 +236,37 @@
                                 <span class="sl-mx-3">:</span>
                                 <div class="sl-flex sl-flex-1">
                                     <div class="sl-input sl-flex-1 sl-relative">
-                                        @if(str_ends_with($parameter->type, '[]'))
-                                            <input aria-label="{{ $name }}" name="{{ $name }}"
-                                                   id="queryparam-{{ $endpoint->endpointId() }}-{{ $name }}"
-                                                   placeholder="{{ $parameter->description }}"
-                                                   value="{{ json_encode($parameter->example) }}" data-component="query"
-                                                   class="sl-relative sl-w-full sl-h-md sl-text-base sl-pr-2.5 sl-pl-2.5 sl-rounded sl-border-transparent hover:sl-border-input focus:sl-border-primary sl-border"
-                                            >
-                                        @else
-                                            <input aria-label="{{ $name }}" name="{{ $name }}"
-                                                   id="queryparam-{{ $endpoint->endpointId() }}-{{ $name }}"
-                                                   placeholder="{{ $parameter->description }}"
-                                                   value="{{ $parameter->example }}" data-component="query"
-                                                   class="sl-relative sl-w-full sl-h-md sl-text-base sl-pr-2.5 sl-pl-2.5 sl-rounded sl-border-transparent hover:sl-border-input focus:sl-border-primary sl-border"
-                                            >
-                                        @endif
+                                        @php
+                                            $isArrayParameter = str_ends_with($parameter->type, '[]');
+                                            $exampleValue = '';
+
+                                            if ($isArrayParameter) {
+                                                $exampleValue = is_array($parameter->example) && $parameter->example !== []
+                                                    ? json_encode($parameter->example, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+                                                    : '';
+                                            } elseif (is_bool($parameter->example)) {
+                                                $exampleValue = $parameter->example ? 'true' : 'false';
+                                            } elseif (is_scalar($parameter->example) && $parameter->example !== '') {
+                                                $exampleValue = (string) $parameter->example;
+                                            }
+
+                                            $shouldPrefill = $parameter->required && $exampleValue !== '';
+                                            $inputValue = $shouldPrefill ? $exampleValue : '';
+
+                                            $description = $translateDescription($parameter->description);
+                                            $placeholderPieces = array_filter([
+                                                $description,
+                                                (! $shouldPrefill && $exampleValue !== '') ? 'ex: '.$exampleValue : null,
+                                            ], fn ($piece) => $piece !== null && $piece !== '');
+                                            $placeholder = trim(implode(' ', $placeholderPieces));
+                                        @endphp
+                                        <input aria-label="{{ $name }}" name="{{ $name }}"
+                                               id="queryparam-{{ $endpoint->endpointId() }}-{{ $name }}"
+                                               placeholder="{{ $placeholder }}"
+                                               value="{{ $inputValue }}" data-component="query"
+                                               data-optional="{{ $parameter->required ? '0' : '1' }}"
+                                               class="sl-relative sl-w-full sl-h-md sl-text-base sl-pr-2.5 sl-pl-2.5 sl-rounded sl-border-transparent hover:sl-border-input focus:sl-border-primary sl-border"
+                                        >
                                     </div>
                                 </div>
                             @endforeach
@@ -199,16 +289,32 @@
                                           d="M310.6 246.6l-127.1 128C176.4 380.9 168.2 384 160 384s-16.38-3.125-22.63-9.375l-127.1-128C.2244 237.5-2.516 223.7 2.438 211.8S19.07 192 32 192h255.1c12.94 0 24.62 7.781 29.58 19.75S319.8 237.5 310.6 246.6z"></path>
                                 </svg>
                             </div>
-                            Body
+                            Corpo da requisição
                         </div>
                     </div>
                     <div class="sl-panel__content-wrapper sl-bg-canvas-100 children" role="region">
                         @if($endpoint->hasJsonBody())
+                            @php
+                                $requiredSample = $buildRequiredSampleBody($endpoint->nestedBodyParameters);
+                                $sampleBody = $requiredSample['value'];
+
+                                $jsonOptions = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
+
+                                if ($sampleBody === []) {
+                                    $isArrayRoot = isset($endpoint->nestedBodyParameters['[]']);
+                                    $sampleJson = $isArrayRoot ? '[]' : '{}';
+                                } else {
+                                    $sampleJson = json_encode($sampleBody, $jsonOptions);
+                                    if ($sampleJson === false) {
+                                        $sampleJson = '{}';
+                                    }
+                                }
+                            @endphp
                             <div class="TextRequestBody sl-p-4">
                                 <div class="code-editor language-json"
                                      id="json-body-{{ $endpoint->endpointId() }}"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
-                                >{!! json_encode($endpoint->getSampleBody(), JSON_PRETTY_PRINT) !!}</div>
+                                >{!! $sampleJson !!}</div>
                             </div>
                         @else
                             <div class="ParameterGrid sl-p-4">
@@ -226,24 +332,52 @@
                                     <span class="sl-mx-3">:</span>
                                     <div class="sl-flex sl-flex-1">
                                         <div class="sl-input sl-flex-1 sl-relative">
+                                            @php
+                                                $exampleValue = '';
+                                                if ($parameter->type == 'file') {
+                                                    $exampleValue = '';
+                                                } elseif (str_ends_with($parameter->type, '[]')) {
+                                                    $exampleValue = is_array($parameter->example) && $parameter->example !== []
+                                                        ? json_encode($parameter->example, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+                                                        : '';
+                                                } elseif (is_bool($parameter->example)) {
+                                                    $exampleValue = $parameter->example ? 'true' : 'false';
+                                                } elseif (is_scalar($parameter->example) && $parameter->example !== '') {
+                                                    $exampleValue = (string) $parameter->example;
+                                                }
+
+                                                $shouldPrefill = $parameter->required && $exampleValue !== '';
+                                                $inputValue = $shouldPrefill ? $exampleValue : '';
+
+                                                $description = $translateDescription($parameter->description);
+                                                $placeholderPieces = array_filter([
+                                                    $description,
+                                                    (! $shouldPrefill && $exampleValue !== '') ? 'ex: '.$exampleValue : null,
+                                                ], fn ($piece) => $piece !== null && $piece !== '');
+                                                $placeholder = trim(implode(' ', $placeholderPieces));
+                                            @endphp
+
                                             @if($parameter->type == 'file')
                                                 <input aria-label="{{ $name }}" name="{{ $name }}"
                                                        id="bodyparam-{{ $endpoint->endpointId() }}-{{ $name }}"
                                                        type="file" data-component="body"
+                                                       data-optional="{{ $parameter->required ? '0' : '1' }}"
                                                        class="sl-relative sl-w-full sl-h-md sl-text-base sl-pr-2.5 sl-pl-2.5 sl-rounded sl-border-transparent hover:sl-border-input focus:sl-border-primary sl-border"
                                                 >
                                             @elseif(str_ends_with($parameter->type, '[]'))
                                                 <input aria-label="{{ $name }}" name="{{ $name }}"
                                                        id="bodyparam-{{ $endpoint->endpointId() }}-{{ $name }}"
-                                                       placeholder="{{ $parameter->description }}"
-                                                       value="{{ json_encode($parameter->example) }}" data-component="body"
+                                                       placeholder="{{ $placeholder }}"
+                                                       value="{{ $inputValue }}" data-component="body"
+                                                       data-optional="{{ $parameter->required ? '0' : '1' }}"
                                                        class="sl-relative sl-w-full sl-h-md sl-text-base sl-pr-2.5 sl-pl-2.5 sl-rounded sl-border-transparent hover:sl-border-input focus:sl-border-primary sl-border"
                                                 >
                                             @else
                                                 <input aria-label="{{ $name }}" name="{{ $name }}"
                                                        id="bodyparam-{{ $endpoint->endpointId() }}-{{ $name }}"
-                                                       placeholder="{{ $parameter->description }}"
-                                                       value="{{ $parameter->example }}" data-component="body"
+                                                       placeholder="{{ $placeholder }}"
+                                                       value="{{ $inputValue }}" data-component="body"
+                                                       data-optional="{{ $parameter->required ? '0' : '1' }}"
                                                        class="sl-relative sl-w-full sl-h-md sl-text-base sl-pr-2.5 sl-pl-2.5 sl-rounded sl-border-transparent hover:sl-border-input focus:sl-border-primary sl-border"
                                                 >
                                             @endif

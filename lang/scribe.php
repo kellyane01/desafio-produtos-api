@@ -2,76 +2,76 @@
 
 return [
     'labels' => [
-        'search' => 'Search',
-        'base_url' => 'Base URL',
+        'search' => 'Buscar',
+        'base_url' => 'URL base',
     ],
 
     'auth' => [
-        'none' => 'This API is not authenticated.',
+        'none' => 'Esta API não exige autenticação.',
         'instruction' => [
             'query' => <<<'TEXT'
-                To authenticate requests, include a query parameter **`:parameterName`** in the request.
+                Para autenticar as requisições, inclua o parâmetro de query **`:parameterName`** na URL.
                 TEXT,
             'body' => <<<'TEXT'
-                To authenticate requests, include a parameter **`:parameterName`** in the body of the request.
+                Para autenticar as requisições, inclua o parâmetro **`:parameterName`** no corpo da requisição.
                 TEXT,
             'query_or_body' => <<<'TEXT'
-                To authenticate requests, include a parameter **`:parameterName`** either in the query string or in the request body.
+                Para autenticar as requisições, inclua o parâmetro **`:parameterName`** na query string ou no corpo da requisição.
                 TEXT,
             'bearer' => <<<'TEXT'
-                To authenticate requests, include an **`Authorization`** header with the value **`"Bearer :placeholder"`**.
+                Para autenticar as requisições, envie o cabeçalho **`Authorization`** com o valor **`"Bearer :placeholder"`**.
                 TEXT,
             'basic' => <<<'TEXT'
-                To authenticate requests, include an **`Authorization`** header in the form **`"Basic {credentials}"`**. 
-                The value of `{credentials}` should be your username/id and your password, joined with a colon (:), 
-                and then base64-encoded.
+                Para autenticar as requisições, envie o cabeçalho **`Authorization`** no formato **`"Basic {credentials}"`**.
+                O valor de `{credentials}` deve conter seu usuário/ID e senha separados por dois pontos (:)
+                e codificados em base64.
                 TEXT,
             'header' => <<<'TEXT'
-                To authenticate requests, include a **`:parameterName`** header with the value **`":placeholder"`**.
+                Para autenticar as requisições, envie o cabeçalho **`:parameterName`** com o valor **`":placeholder"`**.
                 TEXT,
         ],
         'details' => <<<'TEXT'
-            All authenticated endpoints are marked with a `requires authentication` badge in the documentation below.
+            Todos os endpoints autenticados estão destacados com o selo `requer autenticação` na documentação abaixo.
             TEXT,
     ],
 
     'headings' => [
-        'introduction' => 'Introduction',
-        'auth' => 'Authenticating requests',
+        'introduction' => 'Introdução',
+        'auth' => 'Autenticando requisições',
     ],
 
     'endpoint' => [
-        'request' => 'Request',
-        'headers' => 'Headers',
-        'url_parameters' => 'URL Parameters',
-        'body_parameters' => 'Body Parameters',
-        'query_parameters' => 'Query Parameters',
-        'response' => 'Response',
-        'response_fields' => 'Response Fields',
-        'example_request' => 'Example request',
-        'example_response' => 'Example response',
+        'request' => 'Requisição',
+        'headers' => 'Cabeçalhos',
+        'url_parameters' => 'Parâmetros de URL',
+        'body_parameters' => 'Parâmetros de corpo',
+        'query_parameters' => 'Parâmetros de query',
+        'response' => 'Resposta',
+        'response_fields' => 'Campos da resposta',
+        'example_request' => 'Requisição de exemplo',
+        'example_response' => 'Resposta de exemplo',
         'responses' => [
-            'binary' => 'Binary data',
-            'empty' => 'Empty response',
+            'binary' => 'Dados binários',
+            'empty' => 'Resposta vazia',
         ],
     ],
 
     'try_it_out' => [
-        'open' => 'Try it out ⚡',
-        'cancel' => 'Cancel 🛑',
-        'send' => 'Send Request 💥',
-        'loading' => '⏱ Sending...',
-        'received_response' => 'Received response',
-        'request_failed' => 'Request failed with error',
+        'open' => 'Testar requisição ⚡',
+        'cancel' => 'Cancelar 🛑',
+        'send' => 'Enviar requisição 💥',
+        'loading' => '⏱ Enviando...',
+        'received_response' => 'Resposta recebida',
+        'request_failed' => 'A requisição retornou erro',
         'error_help' => <<<'TEXT'
-            Tip: Check that you're properly connected to the network.
-            If you're a maintainer of ths API, verify that your API is running and you've enabled CORS.
-            You can check the Dev Tools console for debugging information.
+            Dica: verifique sua conexão com a rede.
+            Se você mantém esta API, confirme que o serviço está em execução e que o CORS está habilitado.
+            Consulte o console de Dev Tools para mais detalhes de depuração.
             TEXT,
     ],
 
     'links' => [
-        'postman' => 'View Postman collection',
-        'openapi' => 'View OpenAPI spec',
+        'postman' => 'Ver coleção Postman',
+        'openapi' => 'Ver especificação OpenAPI',
     ],
 ];

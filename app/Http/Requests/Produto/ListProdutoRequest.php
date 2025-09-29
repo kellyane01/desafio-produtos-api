@@ -88,7 +88,7 @@ class ListProdutoRequest extends FormRequest
             ],
             'page' => [
                 'description' => 'Número da página a ser retornada.',
-                'example' => 2,
+                'example' => 1,
             ],
             'per_page' => [
                 'description' => 'Quantidade de registros por página (1-100).',

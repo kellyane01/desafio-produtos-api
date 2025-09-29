@@ -1,7 +1,8 @@
-# Authenticating requests
+# Autenticando requisições
 
-To authenticate requests, include an **`Authorization`** header with the value **`"Bearer {ACCESS_TOKEN}"`**.
+Para autenticar as requisições, inclua o cabeçalho **`Authorization`** com o valor **`"Bearer {ACCESS_TOKEN}"`**.
 
-All authenticated endpoints are marked with a `requires authentication` badge in the documentation below.
+Todos os endpoints autenticados exibem o selo `requer autenticação` na documentação abaixo.
 
-Envie o token no cabeçalho Authorization no formato <code>Bearer {token}</code>.
+<p>Sempre inclua <code>Authorization: Bearer {token}</code> e substitua <code>{token}</code> pelo valor recebido após o login.</p>
+<p>Tokens podem ser revogados a qualquer momento via <code>POST /api/v1/auth/logout</code>.</p>

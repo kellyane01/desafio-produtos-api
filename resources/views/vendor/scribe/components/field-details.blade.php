@@ -3,7 +3,7 @@
 @endphp
 <b style="line-height: 2;"><code>{{ $name }}</code></b>&nbsp;&nbsp;
 @if($type)<small>{{ $type }}</small>@endif&nbsp;
-@if($isInput && !$required)<i>optional</i>@endif &nbsp;
+@if($isInput && !$required)<i>opcional</i>@endif &nbsp;
 @if($isInput && empty($hasChildren))
     @php
         $isList = Str::endsWith($type, '[]');
@@ -65,11 +65,34 @@
         if (is_bool($example)) {
             $exampleAsString = $example ? "true" : "false";
         }
-        $description .= " Example: `$exampleAsString`";
+        $description .= " Exemplo: `$exampleAsString`";
     }
+    $description = str_replace(
+        [
+            'Must be a valid email address.',
+            'Must be at least 0.',
+            'Must be at least 1.',
+            'Must not be greater than 100.',
+            'Must not be greater than 255 characters.',
+            'Must be a valid date.',
+            'Must be a date after or equal to <code>from</code>.',
+            'Must be a date after or equal to &lt;code&gt;from&lt;/code&gt;.',
+        ],
+        [
+            'Deve ser um endereço de e-mail válido.',
+            'Deve ser no mínimo 0.',
+            'Deve ser no mínimo 1.',
+            'Não deve ser maior que 100.',
+            'Não deve ultrapassar 255 caracteres.',
+            'Deve ser uma data válida.',
+            'Deve ser uma data igual ou posterior a <code>from</code>.',
+            'Deve ser uma data igual ou posterior a &lt;code&gt;from&lt;/code&gt;.',
+        ],
+        $description
+    );
 @endphp
 {!! Parsedown::instance()->text(trim($description)) !!}
 @if(!empty($enumValues))
-Must be one of:
+Deve ser um dos valores:
 <ul style="list-style-type: square;">{!! implode(" ", array_map(fn($val) => "<li><code>$val</code></li>", $enumValues)) !!}</ul>
 @endif
