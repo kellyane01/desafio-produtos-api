@@ -53,7 +53,7 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"token_type":"Bearer","access_token":"1|e70PKfNmjeiq4CtAFbDhzGQTJBaLdZA2POIs447ta2e834df"}'
+        content: '{"token_type":"Bearer","access_token":"1|SKMk7j9i789NOvrbiK8yVu8NjBQRDVC5K92BCaCXbf6f47d8"}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -100,7 +100,7 @@ endpoints:
     responses:
       -
         status: 401
-        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:14:47+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
+        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:53:10+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -145,7 +145,7 @@ endpoints:
     responses:
       -
         status: 401
-        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:14:47+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
+        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:53:10+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -308,89 +308,16 @@ endpoints:
     fileParameters: []
     responses:
       -
-        status: 200
-        content: |-
-          {
-            "data": [
-              {
-                "id": 15,
-                "nome": "Smartphone X",
-                "preco": 3499.9,
-                "estoque": 12
-              }
-            ],
-            "links": {
-              "first": "http://localhost/api/v1/produtos?page=1",
-              "last": "http://localhost/api/v1/produtos?page=5",
-              "prev": null,
-              "next": "http://localhost/api/v1/produtos?page=2"
-            },
-            "meta": {
-              "current_page": 1,
-              "from": 1,
-              "last_page": 5,
-              "path": "http://localhost/api/v1/produtos",
-              "per_page": 15,
-              "to": 15,
-              "total": 75
-            }
-          }
-        headers: []
-        description: ''
-        custom: []
-      -
         status: 401
-        content: '{"message":"Não autenticado."}'
-        headers: []
-        description: ''
+        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:53:10+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: 'http://localhost:3000'
+          access-control-allow-credentials: 'true'
+        description: null
         custom: []
-      -
-        status: 422
-        content: |-
-          {
-            "message": "Os dados fornecidos são inválidos.",
-            "errors": {
-              "per_page": [
-                "The per page field must not be greater than 100."
-              ]
-            }
-          }
-        headers: []
-        description: ''
-        custom: []
-    responseFields:
-      'data[].id':
-        name: 'data[].id'
-        description: 'Identificador do produto.'
-        type: integer
-        required: false
-        example: null
-        enumValues: []
-        custom: []
-      'data[].nome':
-        name: 'data[].nome'
-        description: 'Nome do produto.'
-        type: string
-        required: false
-        example: null
-        enumValues: []
-        custom: []
-      'data[].preco':
-        name: 'data[].preco'
-        description: 'Preço unitário do produto.'
-        type: number
-        required: false
-        example: null
-        enumValues: []
-        custom: []
-      'data[].estoque':
-        name: 'data[].estoque'
-        description: 'Quantidade disponível em estoque.'
-        type: integer
-        required: false
-        example: null
-        enumValues: []
-        custom: []
+    responseFields: []
     auth:
       - headers
       - Authorization
@@ -482,7 +409,7 @@ endpoints:
     responses:
       -
         status: 401
-        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:14:47+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
+        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:53:10+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -538,7 +465,7 @@ endpoints:
     responses:
       -
         status: 401
-        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:14:47+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
+        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:53:10+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -650,7 +577,7 @@ endpoints:
     responses:
       -
         status: 401
-        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:14:47+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
+        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:53:10+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -706,7 +633,7 @@ endpoints:
     responses:
       -
         status: 401
-        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:14:47+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
+        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:53:10+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -831,7 +758,7 @@ endpoints:
     responses:
       -
         status: 401
-        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:14:47+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
+        content: '{"status":"error","code":"UNAUTHENTICATED","message":"N\u00e3o autenticado.","timestamp":"2025-09-29T13:53:10+00:00","debug":{"exception":"Illuminate\\Auth\\AuthenticationException"}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json

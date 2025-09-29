@@ -32,6 +32,92 @@
                 color: whitesmoke;
                 background-color: transparent;
             }
+            .docs-hero {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 2.5rem;
+            }
+            .docs-hero__main {
+                flex: 1 1 620px;
+                min-width: 300px;
+            }
+            .docs-quickmenu {
+                flex: 0 0 260px;
+                min-width: 240px;
+                background: #ffffff;
+                border: 1px solid #e5e7eb;
+                border-radius: 18px;
+                box-shadow: 0 20px 35px rgba(15, 23, 42, 0.08);
+                padding: 1.75rem 1.5rem;
+                position: sticky;
+                top: 120px;
+                align-self: flex-start;
+            }
+            .docs-quickmenu h2 {
+                font-size: 1.1rem;
+                margin: 0 0 1.25rem 0;
+                font-weight: 600;
+                color: #0f172a;
+            }
+            .docs-quickmenu ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: grid;
+                gap: 0.75rem;
+            }
+            .docs-quickmenu a {
+                color: #0f172a;
+                text-decoration: none;
+                font-weight: 500;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                transition: color 0.2s ease;
+            }
+            .docs-quickmenu a:hover {
+                color: #0284c7;
+            }
+            .docs-downloads {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.75rem;
+                margin-top: 1.5rem;
+            }
+            .docs-downloads .download-cta {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+                padding: 0.75rem 1.5rem;
+                border-radius: 999px;
+                background: linear-gradient(135deg, #0284c7, #0ea5e9);
+                color: #ffffff !important;
+                font-weight: 600;
+                text-decoration: none;
+                box-shadow: 0 15px 25px rgba(2, 132, 199, 0.3);
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+            }
+            .docs-downloads .download-cta:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 20px 30px rgba(2, 132, 199, 0.35);
+            }
+            .docs-downloads .download-secondary {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0.75rem 1.25rem;
+                border-radius: 999px;
+                border: 1px solid #94a3b8;
+                color: #0f172a;
+                font-weight: 500;
+                text-decoration: none;
+                transition: background 0.2s ease, color 0.2s ease;
+            }
+            .docs-downloads .download-secondary:hover {
+                background: #e2e8f0;
+                color: #0f172a;
+            }
             /*
              Problem: we want syntax highlighting for the Try It Out JSON body code editor
              However, the Try It Out area uses a dark background, while request and response samples
@@ -361,8 +447,7 @@
                                             <div class="sl-flex-1 sl-items-center sl-truncate sl-mr-1.5 sl-p-0" title="POST api/v1/auth/login">
                                                 <a class="ElementsTableOfContentsItem sl-block sl-no-underline"
                                                    href="#visao-geral-POSTapi-v1-auth-login">
-                                                    POST api/v1/auth/login
-                                                </a>
+                                                    Realizar login</a>
                                             </div>
                                                                                     </div>
 
@@ -373,8 +458,7 @@
                                             <div class="sl-flex-1 sl-items-center sl-truncate sl-mr-1.5 sl-p-0" title="GET api/v1/auth/me">
                                                 <a class="ElementsTableOfContentsItem sl-block sl-no-underline"
                                                    href="#visao-geral-GETapi-v1-auth-me">
-                                                    GET api/v1/auth/me
-                                                </a>
+                                                    Consultar perfil autenticado</a>
                                             </div>
                                                                                     </div>
 
@@ -385,8 +469,7 @@
                                             <div class="sl-flex-1 sl-items-center sl-truncate sl-mr-1.5 sl-p-0" title="POST api/v1/auth/logout">
                                                 <a class="ElementsTableOfContentsItem sl-block sl-no-underline"
                                                    href="#visao-geral-POSTapi-v1-auth-logout">
-                                                    POST api/v1/auth/logout
-                                                </a>
+                                                    Efetuar logout</a>
                                             </div>
                                                                                     </div>
 
@@ -397,8 +480,7 @@
                                             <div class="sl-flex-1 sl-items-center sl-truncate sl-mr-1.5 sl-p-0" title="GET api/v1/produtos">
                                                 <a class="ElementsTableOfContentsItem sl-block sl-no-underline"
                                                    href="#visao-geral-GETapi-v1-produtos">
-                                                    GET api/v1/produtos
-                                                </a>
+                                                    Listar produtos</a>
                                             </div>
                                                                                     </div>
 
@@ -409,8 +491,7 @@
                                             <div class="sl-flex-1 sl-items-center sl-truncate sl-mr-1.5 sl-p-0" title="POST api/v1/produtos">
                                                 <a class="ElementsTableOfContentsItem sl-block sl-no-underline"
                                                    href="#visao-geral-POSTapi-v1-produtos">
-                                                    POST api/v1/produtos
-                                                </a>
+                                                    Cadastrar produto</a>
                                             </div>
                                                                                     </div>
 
@@ -421,8 +502,7 @@
                                             <div class="sl-flex-1 sl-items-center sl-truncate sl-mr-1.5 sl-p-0" title="GET api/v1/produtos/{id}">
                                                 <a class="ElementsTableOfContentsItem sl-block sl-no-underline"
                                                    href="#visao-geral-GETapi-v1-produtos--id-">
-                                                    GET api/v1/produtos/{id}
-                                                </a>
+                                                    Detalhar produto</a>
                                             </div>
                                                                                     </div>
 
@@ -433,8 +513,7 @@
                                             <div class="sl-flex-1 sl-items-center sl-truncate sl-mr-1.5 sl-p-0" title="PUT api/v1/produtos/{id}">
                                                 <a class="ElementsTableOfContentsItem sl-block sl-no-underline"
                                                    href="#visao-geral-PUTapi-v1-produtos--id-">
-                                                    PUT api/v1/produtos/{id}
-                                                </a>
+                                                    Atualizar produto</a>
                                             </div>
                                                                                     </div>
 
@@ -445,8 +524,7 @@
                                             <div class="sl-flex-1 sl-items-center sl-truncate sl-mr-1.5 sl-p-0" title="DELETE api/v1/produtos/{id}">
                                                 <a class="ElementsTableOfContentsItem sl-block sl-no-underline"
                                                    href="#visao-geral-DELETEapi-v1-produtos--id-">
-                                                    DELETE api/v1/produtos/{id}
-                                                </a>
+                                                    Remover produto</a>
                                             </div>
                                                                                     </div>
 
@@ -457,8 +535,7 @@
                                             <div class="sl-flex-1 sl-items-center sl-truncate sl-mr-1.5 sl-p-0" title="GET api/v1/logs">
                                                 <a class="ElementsTableOfContentsItem sl-block sl-no-underline"
                                                    href="#visao-geral-GETapi-v1-logs">
-                                                    GET api/v1/logs
-                                                </a>
+                                                    Listar logs de auditoria</a>
                                             </div>
                                                                                     </div>
 
@@ -480,23 +557,20 @@
 
     <div class="sl-overflow-y-auto sl-flex-1 sl-w-full sl-px-16 sl-bg-canvas sl-py-16" style="max-width: 1500px;">
 
-        <div class="sl-mb-10">
-            <div class="sl-mb-4">
-                <h1 class="sl-text-5xl sl-leading-tight sl-font-prose sl-font-semibold sl-text-heading">
-                    Documentação da API produto-api
-                </h1>
-                                    <a title="Download Postman collection" class="sl-mx-1"
-                       href="{{ route("scribe.postman") }}" target="_blank">
-                        <small>Postman collection →</small>
-                    </a>
-                                                    <a title="Download OpenAPI spec" class="sl-mx-1"
-                       href="{{ route("scribe.openapi") }}" target="_blank">
-                        <small>OpenAPI spec →</small>
-                    </a>
-                            </div>
+        <div class="sl-mb-10 docs-hero">
+            <div class="docs-hero__main">
+                <div class="sl-mb-4">
+                    <h1 class="sl-text-5xl sl-leading-tight sl-font-prose sl-font-semibold sl-text-heading">
+                        Documentação da API produto-api
+                    </h1>
+                    <div class="docs-downloads">
+                        <a title="Baixar coleção Postman" class="download-cta" href="{{ route("scribe.postman") }}" target="_blank" rel="noopener noreferrer">Baixar coleção Postman</a>
+                        <a title="Abrir OpenAPI spec" class="download-secondary" href="{{ route("scribe.openapi") }}" target="_blank" rel="noopener noreferrer">Ver OpenAPI spec</a>
+                    </div>
+                </div>
 
-            <div class="sl-prose sl-markdown-viewer sl-my-4">
-                <h1 id="introducao">Introdução</h1>
+                <div class="sl-prose sl-markdown-viewer sl-my-4">
+                    <h1 id="introducao">Introdução</h1>
 <p>Documentação oficial da API REST responsável por autenticação, gestão de produtos e rastreamento de auditoria.</p>
 <aside>
     <strong>URL base</strong>: <code>http://localhost:8000</code>
@@ -515,12 +589,24 @@
     <li>Aplique filtros e paginação para otimizar as consultas.</li>
 </ol>
 
-                <h1 id="autenticando-requisicoes">Autenticando requisições</h1>
+                    <h1 id="autenticando-requisicoes">Autenticando requisições</h1>
 <p>Para autenticar as requisições, inclua o cabeçalho <strong><code>Authorization</code></strong> com o valor <strong><code>"Bearer {ACCESS_TOKEN}"</code></strong>.</p>
 <p>Todos os endpoints autenticados exibem o selo <code>requer autenticação</code> na documentação abaixo.</p>
 <p>Sempre inclua <code>Authorization: Bearer {token}</code> e substitua <code>{token}</code> pelo valor recebido após o login.</p>
 <p>Tokens podem ser revogados a qualquer momento via <code>POST /api/v1/auth/logout</code>.</p>
+                </div>
             </div>
+
+            <aside class="docs-quickmenu">
+                <h2>Menu rápido</h2>
+                <ul>
+                    <li><a href="#introducao">Introdução</a></li>
+                    <li><a href="#autenticando-requisicoes">Autenticação</a></li>
+                    <li><a href="#visao-geral">Endpoints</a></li>
+                    <li><a href="{{ route("scribe.postman") }}" target="_blank" rel="noopener noreferrer">Coleção Postman</a></li>
+                    <li><a href="{{ route("scribe.openapi") }}" target="_blank" rel="noopener noreferrer">OpenAPI spec</a></li>
+                </ul>
+            </aside>
         </div>
 
         <h1 id="visao-geral"
@@ -537,7 +623,7 @@
             <div class="sl-stack sl-stack--horizontal sl-stack--5 sl-flex sl-flex-row sl-items-center">
                 <h2 class="sl-text-3xl sl-leading-tight sl-font-prose sl-text-heading sl-mt-5 sl-mb-1"
                     id="visao-geral-POSTapi-v1-auth-login">
-                    POST api/v1/auth/login
+                    Realizar login
                 </h2>
             </div>
         </div>
@@ -1052,7 +1138,7 @@ print_r(json_decode((string) $body));</code></pre>                              
             <div class="sl-stack sl-stack--horizontal sl-stack--5 sl-flex sl-flex-row sl-items-center">
                 <h2 class="sl-text-3xl sl-leading-tight sl-font-prose sl-text-heading sl-mt-5 sl-mb-1"
                     id="visao-geral-GETapi-v1-auth-me">
-                    GET api/v1/auth/me
+                    Consultar perfil autenticado
                 </h2>
             </div>
         </div>
@@ -1465,7 +1551,7 @@ print_r(json_decode((string) $body));</code></pre>                              
             <div class="sl-stack sl-stack--horizontal sl-stack--5 sl-flex sl-flex-row sl-items-center">
                 <h2 class="sl-text-3xl sl-leading-tight sl-font-prose sl-text-heading sl-mt-5 sl-mb-1"
                     id="visao-geral-POSTapi-v1-auth-logout">
-                    POST api/v1/auth/logout
+                    Efetuar logout
                 </h2>
             </div>
         </div>
@@ -1878,7 +1964,7 @@ print_r(json_decode((string) $body));</code></pre>                              
             <div class="sl-stack sl-stack--horizontal sl-stack--5 sl-flex sl-flex-row sl-items-center">
                 <h2 class="sl-text-3xl sl-leading-tight sl-font-prose sl-text-heading sl-mt-5 sl-mb-1"
                     id="visao-geral-GETapi-v1-produtos">
-                    GET api/v1/produtos
+                    Listar produtos
                 </h2>
             </div>
         </div>
@@ -2824,7 +2910,7 @@ print_r(json_decode((string) $body));</code></pre>                              
             <div class="sl-stack sl-stack--horizontal sl-stack--5 sl-flex sl-flex-row sl-items-center">
                 <h2 class="sl-text-3xl sl-leading-tight sl-font-prose sl-text-heading sl-mt-5 sl-mb-1"
                     id="visao-geral-POSTapi-v1-produtos">
-                    POST api/v1/produtos
+                    Cadastrar produto
                 </h2>
             </div>
         </div>
@@ -3433,7 +3519,7 @@ print_r(json_decode((string) $body));</code></pre>                              
             <div class="sl-stack sl-stack--horizontal sl-stack--5 sl-flex sl-flex-row sl-items-center">
                 <h2 class="sl-text-3xl sl-leading-tight sl-font-prose sl-text-heading sl-mt-5 sl-mb-1"
                     id="visao-geral-GETapi-v1-produtos--id-">
-                    GET api/v1/produtos/{id}
+                    Detalhar produto
                 </h2>
             </div>
         </div>
@@ -3909,7 +3995,7 @@ print_r(json_decode((string) $body));</code></pre>                              
             <div class="sl-stack sl-stack--horizontal sl-stack--5 sl-flex sl-flex-row sl-items-center">
                 <h2 class="sl-text-3xl sl-leading-tight sl-font-prose sl-text-heading sl-mt-5 sl-mb-1"
                     id="visao-geral-PUTapi-v1-produtos--id-">
-                    PUT api/v1/produtos/{id}
+                    Atualizar produto
                 </h2>
             </div>
         </div>
@@ -4586,7 +4672,7 @@ print_r(json_decode((string) $body));</code></pre>                              
             <div class="sl-stack sl-stack--horizontal sl-stack--5 sl-flex sl-flex-row sl-items-center">
                 <h2 class="sl-text-3xl sl-leading-tight sl-font-prose sl-text-heading sl-mt-5 sl-mb-1"
                     id="visao-geral-DELETEapi-v1-produtos--id-">
-                    DELETE api/v1/produtos/{id}
+                    Remover produto
                 </h2>
             </div>
         </div>
@@ -5062,7 +5148,7 @@ print_r(json_decode((string) $body));</code></pre>                              
             <div class="sl-stack sl-stack--horizontal sl-stack--5 sl-flex sl-flex-row sl-items-center">
                 <h2 class="sl-text-3xl sl-leading-tight sl-font-prose sl-text-heading sl-mt-5 sl-mb-1"
                     id="visao-geral-GETapi-v1-logs">
-                    GET api/v1/logs
+                    Listar logs de auditoria
                 </h2>
             </div>
         </div>

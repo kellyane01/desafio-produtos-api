@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     libzip-dev \
     libssl-dev \
-    && docker-php-ext-install pdo pdo_pgsql \
+    && docker-php-ext-install pdo pdo_pgsql pcntl \
     && pecl install redis \
     && docker-php-ext-enable redis \
     && apt-get clean \
