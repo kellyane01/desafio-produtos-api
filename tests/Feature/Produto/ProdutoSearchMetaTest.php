@@ -83,6 +83,7 @@ class ProdutoSearchMetaTest extends TestCase
             ->assertJsonPath('meta.search.engine', 'elasticsearch')
             ->assertJsonPath('meta.search.suggestions.0', 'notebook gamer')
             ->assertJsonPath('meta.search.max_score', 9.1)
+            ->assertJsonPath('data.0.nome', 'Notebook Gamer Z15')
             ->assertJsonPath('data.0.search_highlight.nome', 'Notebook <em>Gamer</em> Z15');
     }
 }

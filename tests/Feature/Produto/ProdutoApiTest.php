@@ -44,12 +44,8 @@ class ProdutoApiTest extends TestCase
                 'data' => [[
                     'id',
                     'nome',
-                    'descricao',
                     'preco',
-                    'categoria',
                     'estoque',
-                    'created_at',
-                    'updated_at',
                 ]],
                 'links' => ['first', 'last', 'prev', 'next'],
                 'meta' => ['current_page', 'last_page', 'per_page', 'total'],

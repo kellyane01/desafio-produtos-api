@@ -19,6 +19,7 @@ class ProdutoListResource extends JsonResource
             'nome' => $this->resource->nome,
             'preco' => (float) $this->resource->preco,
             'estoque' => (int) $this->resource->estoque,
+            'search_highlight'=> $this->search_highlight ?? null,
         ];
     }
 }
