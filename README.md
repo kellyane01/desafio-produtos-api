@@ -1,6 +1,11 @@
-# Desafio Técnico – Pessoa Desenvolvedora Back-end
+# API de Produtos — Laravel, Elasticsearch e filas
 
 API RESTful para gerenciamento de produtos construída em Laravel 10. Inclui autenticação, CRUD completo, filtros avançados, paginação configurável, logs assíncronos, busca inteligente com Elasticsearch e um ecossistema dockerizado pronto para rodar.
+
+Desenvolvido por [Brena Kellyane](https://github.com/kellyane01) como desafio técnico de back-end. O projeto reúne busca full-text, processamento assíncrono, autenticação e testes em uma API com ambiente Docker.
+
+Para avaliar o projeto, comece pela execução local e pelos exemplos de requisição abaixo. A organização das camadas e os compromissos da solução estão descritos em [Decisões técnicas](docs/DECISOES.md).
+
 
 ---
 
@@ -72,7 +77,7 @@ API RESTful para gerenciamento de produtos construída em Laravel 10. Inclui aut
 - [ ] (Linux) `sudo sysctl -w vm.max_map_count=262144` antes do Elasticsearch
 - [ ] API respondendo em http://localhost:8000
 
-> Aguarde ate que os scripts sejam finalizados, acompanhe o processo nos logs do container *laravel_app*
+> Aguarde até que a inicialização termine e acompanhe os logs do container *laravel_app*.
 
 > Quer ver os logs da fila? `docker-compose logs -f horizon`
 
@@ -162,7 +167,7 @@ curl -X GET "http://localhost:8000/api/v1/produtos/1" \
 ---
 
 ## Arquitetura e Organização
-- PHP 8.2, Laravel 10 LTS, PostgreSQL 15, Redis e Elasticsearch.
+- PHP 8.2, Laravel 10, PostgreSQL 15, Redis e Elasticsearch.
 - Docker Compose orquestra API, banco, cache, fila, pgAdmin e Horizon.
 - Versionamento das rotas em `/api/v1`.
 - Serviços em `app/Services`, Repositórios em `app/Repositories`, Observers em `app/Observers`.
@@ -223,9 +228,19 @@ Rodando via Docker:
 docker exec -it laravel_app ./vendor/bin/phpunit
 ```
 
-Cobertura: autenticação, CRUD de produtos (filtros e ordenação), logs, observers, repositórios, jobs e busca.
+Escopo descrito pela suíte: autenticação, CRUD de produtos (filtros e ordenação), logs, observers, repositórios, jobs e busca. Consulte a execução da suíte para conferir o resultado; esta descrição não informa um percentual de cobertura.
 
 ---
+
+### Verificações de qualidade
+
+```bash
+composer lint
+./vendor/bin/phpunit
+```
+
+O ambiente de testes definido em `phpunit.xml` usa SQLite em memória, cache em array e fila síncrona. Testes de jobs e contratos nesse ambiente não substituem uma validação integrada com PostgreSQL, Redis e Elasticsearch reais.
+
 
 ## Seeds e Carga Massiva
 ```env
