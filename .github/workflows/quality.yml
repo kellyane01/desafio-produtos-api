@@ -1,0 +1,56 @@
+name: Qualidade PHP
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: php-quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Pint e PHPUnit
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      APP_ENV: testing
+      CACHE_DRIVER: array
+      DB_CONNECTION: sqlite
+      DB_DATABASE: ':memory:'
+      QUEUE_CONNECTION: sync
+      SESSION_DRIVER: array
+      MAIL_MAILER: array
+    steps:
+      - name: Obter código
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Preparar PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, dom, curl, zip, fileinfo, pdo_sqlite, pdo_pgsql, redis, pcntl, posix, bcmath
+          coverage: none
+          tools: composer:v2
+
+      - name: Preparar ambiente local de teste
+        run: cp .env.example .env
+
+      - name: Instalar dependências
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Gerar chave da aplicação
+        run: php artisan key:generate --force
+
+      - name: Conferir formatação
+        run: composer lint
+
+      - name: Executar testes
+        run: ./vendor/bin/phpunit
